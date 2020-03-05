@@ -25,7 +25,7 @@ import javafx.stage.Stage;
  */
 public class FXMLDocumentController implements Initializable 
 {
-    
+    Proyecto2DistribuidosReloaded p2 = new Proyecto2DistribuidosReloaded();
     
     @FXML
     private Button centralButton;
@@ -51,7 +51,7 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException 
     {
-        System.out.println("Botón Central");
+        //System.out.println("Botón Central");
          Stage stage = new Stage(); 
         Parent root = FXMLLoader.load(getClass().getResource("Central.fxml")); 
        // stage.setTitle("Register"); 
@@ -66,8 +66,8 @@ public class FXMLDocumentController implements Initializable
         // TODO
         this.estacion1.wrapTextProperty().setValue(true);
         this.estacion2.wrapTextProperty().setValue(true);
-        Proyecto2DistribuidosReloaded p2 = new Proyecto2DistribuidosReloaded();
-        this.tablaEst1 = new TableView(p2.mostrarDatos(tablaEst1));
+        this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1));
+        this.tablaEst2 = new TableView(p2.mostrarDatos2(tablaEst2));
     }    
     
     @FXML
@@ -85,13 +85,19 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private void agregarVenta1Handler(ActionEvent event)   
     {
-        // agregar datos de una venta random a la base de datos
+        Venta newVenta = new Venta();
+        p2.ingresarVenta1(newVenta);
+        p2.data1.removeAll(p2.data1);
+        this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1));
     }
     
     @FXML
     private void agregarVenta2Handler(ActionEvent event)   
     {
-        // agregar datos de una venta random a la base de datos
+        Venta newVenta = new Venta();
+        p2.ingresarVenta2(newVenta);
+        p2.data2.removeAll(p2.data2);
+        this.tablaEst2 = new TableView(p2.mostrarDatos2(tablaEst2));
     }
     
 }

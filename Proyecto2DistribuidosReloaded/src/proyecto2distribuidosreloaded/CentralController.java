@@ -118,7 +118,7 @@ public class CentralController implements Initializable {
 
     @FXML
     public void handleActualizar() {
-        System.out.println("Actualizando");
+        //System.out.println("Actualizando");
         data1.removeAll(data1);
         data2.removeAll(data2);
         this.tablaReporte = new TableView(mostrarReporte(tablaReporte));
@@ -150,7 +150,7 @@ public class CentralController implements Initializable {
                 });
 
                 tablaEst1.getColumns().addAll(col);
-                System.out.println("Column [" + i + "] ");
+                //System.out.println("Column [" + i + "] ");
             }
 
             while (rs.next()) {
@@ -160,7 +160,7 @@ public class CentralController implements Initializable {
                     //Iterate Column
                     row.add(rs.getString(i));
                 }
-                System.out.println("Row [1] added " + row);
+                //System.out.println("Row [1] added " + row);
                 data1.add(row);
 
             }
@@ -199,7 +199,7 @@ public class CentralController implements Initializable {
                 });
 
                 tablaEst1.getColumns().addAll(col);
-                System.out.println("Column [" + i + "] ");
+                //System.out.println("Column [" + i + "] ");
             }
 
             while (rs.next()) {
