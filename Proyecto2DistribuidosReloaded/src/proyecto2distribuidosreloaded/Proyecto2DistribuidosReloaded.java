@@ -61,42 +61,7 @@ public class Proyecto2DistribuidosReloaded extends Application {
          
     }
     
-    public Connection dbConnection() {
-   
-        /*
-        Precios combustible de ejemplo:
-        Kerosene:
-            700
-            652
-            690
-            600
-        
-        Gasolina 93:
-            871
-            847
-            832
-            836
-        
-        Gasolina 95:
-            872
-            882
-            866
-            881
-        
-        Gasolina 97:
-            941
-            943
-            954
-            902
-        
-        Diesel:
-            624
-            631
-            653
-            602
-        */
-        
-       
+    public Connection dbConnection() {    
         try {
 
         Class.forName("org.postgresql.Driver");
