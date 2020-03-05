@@ -51,6 +51,8 @@ public class CentralController implements Initializable {
     String user = "postgres";
     String password = "Distribuidos1234";
     private ObservableList<ObservableList> data1;
+    private ObservableList<ObservableList> data2;
+    private ObservableList<ObservableList> data3;
 
     /**
      * Initializes the controller class.
@@ -58,7 +60,13 @@ public class CentralController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         data1 = FXCollections.observableArrayList();
-        this.tablaReporte = new TableView(mostrarReporte(tablaReporte));
+        data2 = FXCollections.observableArrayList();
+        data3 = FXCollections.observableArrayList();
+        
+        //this.tablaReporte = new TableView(mostrarReporte(tablaReporte));
+        data3.add(mostrarReporte(tablaReporte));
+        data3.add(mostrarReporte2(tablaReporte));
+        this.tablaReporte= new TableView(data3);
         // TODO
     }
 
@@ -79,7 +87,7 @@ public class CentralController implements Initializable {
 
         try {
             connection = DriverManager.getConnection(urlDB1, user, password);
-            JOptionPane.showMessageDialog(null, "Connected");
+            //JOptionPane.showMessageDialog(null, "Connected");
         } catch (SQLException ex) {
             Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Failed To Connect");
@@ -99,7 +107,7 @@ public class CentralController implements Initializable {
 
         try {
             connection = DriverManager.getConnection(urlDB2, user, password);
-            JOptionPane.showMessageDialog(null, "Connected");
+            //JOptionPane.showMessageDialog(null, "Connected");
         } catch (SQLException ex) {
             Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Failed To Connect");
@@ -112,7 +120,10 @@ public class CentralController implements Initializable {
     public void handleActualizar() {
         System.out.println("Actualizando");
         data1.removeAll(data1);
+        data2.removeAll(data2);
         this.tablaReporte = new TableView(mostrarReporte(tablaReporte));
+        this.tablaReporte.setItems(mostrarReporte2(tablaReporte));
+        
     }
 
 
@@ -162,6 +173,11 @@ public class CentralController implements Initializable {
             System.out.println("Error on Building Data");
         }
         
+        return data1;
+    }
+    
+     public ObservableList<ObservableList> mostrarReporte2(TableView tablaEst1) {
+        
         try {
             Connection c = db2Connection();
             String sql = "Select surtidor.idsurtidor,distribuidor.iddistribuidor,surtidor.tipocombustible ,round(Avg(venta.cantidadlitros),2 )as promediolitros ,round(Avg(venta.valorventa),2) as promedioventa\n"
@@ -194,19 +210,19 @@ public class CentralController implements Initializable {
                     row.add(rs.getString(i));
                 }
                 System.out.println("Row [1] added " + row);
-                data1.add(row);
+                data2.add(row);
 
             }
 
             //FINALLY ADDED TO TableView
-            tablaEst1.setItems(data1);
+            tablaEst1.setItems(data2);
 
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error on Building Data");
         }
-
-        return data1;
+        
+        return data2;
     }
 
 }
