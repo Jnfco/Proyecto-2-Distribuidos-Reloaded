@@ -55,7 +55,8 @@ public class FXMLDocumentController implements Initializable
          Stage stage = new Stage(); 
         Parent root = FXMLLoader.load(getClass().getResource("Central.fxml")); 
        // stage.setTitle("Register"); 
-        stage.setScene(new Scene(root,1020,650)); 
+        stage.setScene(new Scene(root,600,500));
+        stage.setResizable(false);
         stage.show(); 
     }
     

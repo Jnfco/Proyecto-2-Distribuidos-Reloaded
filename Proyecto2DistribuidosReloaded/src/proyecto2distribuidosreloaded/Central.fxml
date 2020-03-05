@@ -10,18 +10,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto2distribuidosreloaded.CentralController">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto2distribuidosreloaded.CentralController">
    <children>
-      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="1020.0">
+      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="600.0">
          <bottom>
-            <VBox maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="1020.0" BorderPane.alignment="CENTER">
+            <VBox maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="1020.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0">
                      <children>
-                        <Button alignment="CENTER" mnemonicParsing="false" text="Actualizar tabla" />
+                        <Button fx:id="botonActualizar" alignment="CENTER" mnemonicParsing="false" onAction="#handleActualizar" text="Actualizar tabla" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="100.0">
+                  <HBox alignment="CENTER" prefHeight="20.0" prefWidth="200.0" spacing="100.0">
                      <children>
                         <Label text="Kerosene" />
                         <Label text="Diesel" />
@@ -29,9 +29,6 @@
                         <Label text="95" />
                         <Label text="97" />
                      </children>
-                     <padding>
-                        <Insets top="60.0" />
-                     </padding>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="10.0" prefWidth="200.0" spacing="100.0">
                      <children>
@@ -49,7 +46,7 @@
                         <Insets />
                      </VBox.margin>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                  <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0" spacing="50.0">
                      <children>
                         <TextField prefWidth="70.0" />
                         <TextField prefWidth="70.0" />
@@ -58,10 +55,10 @@
                         <TextField prefWidth="70.0" />
                      </children>
                      <padding>
-                        <Insets bottom="60.0" />
+                        <Insets bottom="20.0" />
                      </padding>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="20.0">
                      <children>
                         <Button mnemonicParsing="false" text="Actualizar precios" />
                         <Button mnemonicParsing="false" text="Cancelar" />
@@ -71,7 +68,7 @@
             </VBox>
          </bottom>
          <center>
-            <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="250.0" prefWidth="248.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="tablaReporte" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="250.0" prefWidth="248.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </BorderPane.margin>
