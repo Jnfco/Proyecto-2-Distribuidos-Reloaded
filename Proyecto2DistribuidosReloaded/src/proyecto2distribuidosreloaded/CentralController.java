@@ -87,15 +87,8 @@ public class CentralController implements Initializable {
 
         return connection;
     }
+     public Connection db2Connection() {
 
-    @FXML
-    public void handleActualizar() {
-        System.out.println("Actualizando");
-        data1.removeAll(data1);
-        this.tablaReporte = new TableView(mostrarReporte(tablaReporte));
-    }
-
-    public Connection dbConnection() {
         try {
 
             Class.forName("org.postgresql.Driver");
@@ -105,8 +98,8 @@ public class CentralController implements Initializable {
         }
 
         try {
-            connection = DriverManager.getConnection(urlDB1, user, password);
-            //JOptionPane.showMessageDialog(null, "Connected");
+            connection = DriverManager.getConnection(urlDB2, user, password);
+            JOptionPane.showMessageDialog(null, "Connected");
         } catch (SQLException ex) {
             Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Failed To Connect");
@@ -115,10 +108,62 @@ public class CentralController implements Initializable {
         return connection;
     }
 
+    @FXML
+    public void handleActualizar() {
+        System.out.println("Actualizando");
+        data1.removeAll(data1);
+        this.tablaReporte = new TableView(mostrarReporte(tablaReporte));
+    }
+
+
     public ObservableList<ObservableList> mostrarReporte(TableView tablaEst1) {
         
         try {
-            Connection c = dbConnection();
+            Connection c = db1Connection();
+            String sql = "Select surtidor.idsurtidor,distribuidor.iddistribuidor,surtidor.tipocombustible ,round(Avg(venta.cantidadlitros),2 )as promediolitros ,round(Avg(venta.valorventa),2) as promedioventa\n"
+                    + "  From  distribuidor, surtidor, venta\n"
+                    + "  where distribuidor.iddistribuidor = surtidor.iddistribuidor and surtidor.idsurtidor = venta.idsurtidor \n"
+                    + "  Group By surtidor.idsurtidor, distribuidor.iddistribuidor;";
+
+            ResultSet rs = c.createStatement().executeQuery(sql);
+
+            for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
+                //We are using non property style for making dynamic table
+                final int j = i;
+                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
+                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
+                        return new SimpleStringProperty(param.getValue().get(j).toString());
+                    }
+                });
+
+                tablaEst1.getColumns().addAll(col);
+                System.out.println("Column [" + i + "] ");
+            }
+
+            while (rs.next()) {
+                //Iterate Row
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                    //Iterate Column
+                    row.add(rs.getString(i));
+                }
+                System.out.println("Row [1] added " + row);
+                data1.add(row);
+
+            }
+
+            //FINALLY ADDED TO TableView
+            tablaEst1.setItems(data1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error on Building Data");
+        }
+        
+        try {
+            Connection c = db2Connection();
             String sql = "Select surtidor.idsurtidor,distribuidor.iddistribuidor,surtidor.tipocombustible ,round(Avg(venta.cantidadlitros),2 )as promediolitros ,round(Avg(venta.valorventa),2) as promedioventa\n"
                     + "  From  distribuidor, surtidor, venta\n"
                     + "  where distribuidor.iddistribuidor = surtidor.iddistribuidor and surtidor.idsurtidor = venta.idsurtidor \n"
