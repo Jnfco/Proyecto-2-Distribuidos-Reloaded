@@ -79,7 +79,7 @@ public class CentralController implements Initializable {
 
         try {
             connection = DriverManager.getConnection(urlDB1, user, password);
-            JOptionPane.showMessageDialog(null, "Connected");
+            //JOptionPane.showMessageDialog(null, "Connected");
         } catch (SQLException ex) {
             Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Failed To Connect");
@@ -99,7 +99,7 @@ public class CentralController implements Initializable {
 
         try {
             connection = DriverManager.getConnection(urlDB2, user, password);
-            JOptionPane.showMessageDialog(null, "Connected");
+            //JOptionPane.showMessageDialog(null, "Connected");
         } catch (SQLException ex) {
             Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Failed To Connect");
@@ -110,7 +110,7 @@ public class CentralController implements Initializable {
 
     @FXML
     public void handleActualizar() {
-        System.out.println("Actualizando");
+        //System.out.println("Actualizando");
         data1.removeAll(data1);
         this.tablaReporte = new TableView(mostrarReporte(tablaReporte));
     }
@@ -139,7 +139,7 @@ public class CentralController implements Initializable {
                 });
 
                 tablaEst1.getColumns().addAll(col);
-                System.out.println("Column [" + i + "] ");
+                //System.out.println("Column [" + i + "] ");
             }
 
             while (rs.next()) {
@@ -149,7 +149,7 @@ public class CentralController implements Initializable {
                     //Iterate Column
                     row.add(rs.getString(i));
                 }
-                System.out.println("Row [1] added " + row);
+                //System.out.println("Row [1] added " + row);
                 data1.add(row);
 
             }
@@ -183,7 +183,7 @@ public class CentralController implements Initializable {
                 });
 
                 tablaEst1.getColumns().addAll(col);
-                System.out.println("Column [" + i + "] ");
+                //System.out.println("Column [" + i + "] ");
             }
 
             while (rs.next()) {
@@ -193,7 +193,7 @@ public class CentralController implements Initializable {
                     //Iterate Column
                     row.add(rs.getString(i));
                 }
-                System.out.println("Row [1] added " + row);
+                //.out.println("Row [1] added " + row);
                 data1.add(row);
 
             }

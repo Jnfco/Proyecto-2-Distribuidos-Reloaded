@@ -51,7 +51,7 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private void handleButtonAction(ActionEvent event) throws IOException 
     {
-        System.out.println("Botón Central");
+        //System.out.println("Botón Central");
          Stage stage = new Stage(); 
         Parent root = FXMLLoader.load(getClass().getResource("Central.fxml")); 
        // stage.setTitle("Register"); 
