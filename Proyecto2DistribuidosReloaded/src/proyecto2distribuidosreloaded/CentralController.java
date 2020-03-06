@@ -26,6 +26,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import javax.swing.JOptionPane;
 
@@ -44,6 +45,24 @@ public class CentralController implements Initializable {
 
     @FXML
     private Button botonActualizar;
+    
+    @FXML
+    private TextField fieldKerosene;
+    
+    @FXML
+    private TextField fieldDiesel;
+    
+    @FXML
+    private TextField field93;
+    
+    @FXML
+    private TextField field95;
+    
+    @FXML
+    private TextField field97;
+    
+    @FXML
+    private Button actualizarPrecios;
 
     Connection connection;
     String urlDB1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
@@ -99,7 +118,73 @@ public class CentralController implements Initializable {
         this.tablaReporte.refresh();
 
     }
+    
+    @FXML
+    public void handleKerosene (){
+        
+        
+    }
+    @FXML
+    public void handleDiesel (){
+        
+    }
+    @FXML
+    public void handle93 (){
+        
+    }
+    @FXML
+    public void handle95 (){
+        
+    }
+    @FXML
+    public void handle97 (){
+        
+    }
+    
+    @FXML
+    public void handleActualizarPrecios (){
+       actualizarPrecios();
+    }
 
+    
+    public long  actualizarPrecios(){
+        String sql = "UPDATE distribuidor\n" +"SET preciodiesel = ? , preciokerosene = ? ,precio93= ? , precio95=? ,precio97 =?" + "WHERE iddistribuidor =1;";
+        long id = 0;
+        
+        try (
+                PreparedStatement pstmt = c1.prepareStatement(sql,
+                Statement.RETURN_GENERATED_KEYS))
+        {
+            pstmt.setFloat(1,Float.parseFloat(this.fieldKerosene.getText()));
+            pstmt.setFloat(2, Float.parseFloat(this.fieldDiesel.getText()));
+            pstmt.setFloat(3, Float.parseFloat(this.field93.getText()));
+            pstmt.setFloat(4, Float.parseFloat(this.field95.getText()));
+            pstmt.setFloat(5, Float.parseFloat(this.field97.getText()));
+            
+            int affectedRows = pstmt.executeUpdate();
+            
+            if(affectedRows > 0)
+            {
+                try (ResultSet rs = pstmt.getGeneratedKeys())
+                {
+                    if(rs.next())
+                    {
+                        id = rs.getLong(1);
+                    }
+                } catch (SQLException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            }
+            
+        } catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        
+        return id;
+    }
+    
     public ObservableList<ObservableList> mostrarReporte(TableView tablaEst1,ObservableList<ObservableList> data1,ObservableList<ObservableList> data2) throws SQLException {
 
         try {
