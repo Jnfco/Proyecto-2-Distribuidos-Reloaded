@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -10,13 +14,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto2distribuidosreloaded.CentralController">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto2distribuidosreloaded.CentralController">
    <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="600.0">
          <bottom>
             <VBox maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="1020.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
                      <children>
                         <Button fx:id="botonActualizar" alignment="CENTER" mnemonicParsing="false" onAction="#handleActualizar" text="Actualizar tabla" />
                      </children>
@@ -57,6 +61,11 @@
                      <padding>
                         <Insets bottom="20.0" />
                      </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="30.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="lblAviso" text="Faltan datos" />
+                     </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="20.0">
                      <children>
