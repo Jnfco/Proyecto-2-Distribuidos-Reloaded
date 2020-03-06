@@ -36,12 +36,18 @@ public class Proyecto2DistribuidosReloaded extends Application {
     
     public ObservableList<ObservableList> data1 = FXCollections.observableArrayList();
     public ObservableList<ObservableList> data2 = FXCollections.observableArrayList();
+    private float precioKerosene;
+    private float precioDiesel;
+    private float precio93;
+    private float precio95;
+    private float precio97;
     
     Connection connection;
         String url1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
         String url2 = "jdbc:postgresql://localhost:5432/Distribuidor2";
         String user = "postgres";
         String password = "Distribuidos1234";
+    
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -55,6 +61,7 @@ public class Proyecto2DistribuidosReloaded extends Application {
         stage.setResizable(false);
     }
 
+    
     /**
      * @param args the command line arguments
      */
@@ -68,38 +75,6 @@ public class Proyecto2DistribuidosReloaded extends Application {
     
     public Connection dbConnectionDB1() {
    
-        /*
-        Precios combustible de ejemplo:
-        Kerosene:
-            700
-            652
-            690
-            600
-        
-        Gasolina 93:
-            871
-            847
-            832
-            836
-        
-        Gasolina 95:
-            872
-            882
-            866
-            881
-        
-        Gasolina 97:
-            941
-            943
-            954
-            902
-        
-        Diesel:
-            624
-            631
-            653
-            602
-        */
         
        
         try {
@@ -120,6 +95,7 @@ public class Proyecto2DistribuidosReloaded extends Application {
 
         return connection;
     }
+    
     
     public ObservableList<ObservableList> mostrarDatos1(TableView tablaEst1)
     {
@@ -228,7 +204,7 @@ public class Proyecto2DistribuidosReloaded extends Application {
                 data2.add(row);
 
             }
-
+            
             //FINALLY ADDED TO TableView
             tablaEst2.setItems(data2);
             
