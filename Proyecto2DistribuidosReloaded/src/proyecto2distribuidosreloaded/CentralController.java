@@ -86,6 +86,8 @@ public class CentralController implements Initializable {
     private ObservableList<ObservableList> data2;
     private Connection c1;
     private Connection c2;
+    
+    
 
     /**
      * Initializes the controller class.
