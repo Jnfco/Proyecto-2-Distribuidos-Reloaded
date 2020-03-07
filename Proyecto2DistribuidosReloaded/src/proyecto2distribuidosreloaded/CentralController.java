@@ -97,12 +97,6 @@ public class CentralController implements Initializable {
         
         obtenerPreciosActuales();
         
-        System.out.println("93: " + central.getPrecio93());
-        System.out.println("95: " + central.getPrecio95());
-        System.out.println("97: " + central.getPrecio97());
-        System.out.println("K: " + central.getPrecioK());
-        System.out.println("D: " + central.getPrecioD());
-        
         this.field93.setText("" + central.getPrecio93());
         this.field95.setText("" + central.getPrecio95());
         this.field97.setText("" + central.getPrecio97());
@@ -175,27 +169,17 @@ public class CentralController implements Initializable {
     @FXML
     public void handleActualizarPrecios ()
     {
-        if(this.field93.getText().equals("") || this.field95.getText().equals("") || this.field97.getText().equals("") ||
-                this.fieldDiesel.getText().equals("") || this.fieldDiesel.getText().equals(""))
-        {
-            this.lblAviso.setVisible(true);
-        }
-        else
-        {
-            this.lblAviso.setVisible(false);
-            this.central.setPrecio93(Float.parseFloat(this.field93.getText()));
-            this.central.setPrecio95(Float.parseFloat(this.field95.getText()));
-            this.central.setPrecio97(Float.parseFloat(this.field97.getText()));
-            this.central.setPrecioK(Float.parseFloat(this.fieldKerosene.getText()));
-            this.central.setPrecioD(Float.parseFloat(this.fieldDiesel.getText()));
-//            System.out.println("precio 93: " + this.precio93);
-//            System.out.println("precio 95: " + this.precio95);
-//            System.out.println("precio 97: " + this.precio97);
-//            System.out.println("precio D: " + this.precioD);
-//            System.out.println("precio K: " + this.precioK);
-            guardarPrecio();
-            actualizarPrecios();
-        }
+        this.central.setPrecio93(obtenerNuevoPrecio(this.field93.getText(), this.central.getPrecio93()));
+        this.central.setPrecio95(obtenerNuevoPrecio(this.field95.getText(), this.central.getPrecio95()));
+        this.central.setPrecio97(obtenerNuevoPrecio(this.field97.getText(), this.central.getPrecio97()));
+        this.central.setPrecioK(obtenerNuevoPrecio(this.fieldKerosene.getText(), this.central.getPrecioK()));
+        this.central.setPrecioD(obtenerNuevoPrecio(this.fieldDiesel.getText(), this.central.getPrecioD()));
+        this.lblAviso.setText("Precios actualizados");
+        this.lblAviso.setVisible(true);
+
+        guardarPrecio();
+        actualizarPrecios();
+
     }
 
     
@@ -207,11 +191,11 @@ public class CentralController implements Initializable {
                 PreparedStatement pstmt = c1.prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS))
         {
-            pstmt.setFloat(1,Float.parseFloat(this.fieldKerosene.getText()));
-            pstmt.setFloat(2, Float.parseFloat(this.fieldDiesel.getText()));
-            pstmt.setFloat(3, Float.parseFloat(this.field93.getText()));
-            pstmt.setFloat(4, Float.parseFloat(this.field95.getText()));
-            pstmt.setFloat(5, Float.parseFloat(this.field97.getText()));
+            pstmt.setFloat(1, this.central.getPrecioD());
+            pstmt.setFloat(2, this.central.getPrecioK());
+            pstmt.setFloat(3, this.central.getPrecio93());
+            pstmt.setFloat(4, this.central.getPrecio95());
+            pstmt.setFloat(5, this.central.getPrecio97());
             
             int affectedRows = pstmt.executeUpdate();
             
@@ -469,6 +453,18 @@ public class CentralController implements Initializable {
         {
             e.printStackTrace();
             System.out.println("Error on Building Data");
+        }
+    }
+    
+    public float obtenerNuevoPrecio(String precioEntrada, float precioActual)
+    {
+        if(precioEntrada.equals(""))
+        {
+            return precioActual;
+        }
+        else 
+        {
+            return Float.parseFloat(precioEntrada);
         }
     }
     
