@@ -5,6 +5,11 @@
  */
 package proyecto2distribuidosreloaded;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -67,9 +72,33 @@ public class Proyecto2DistribuidosReloaded extends Application {
      */
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         Proyecto2DistribuidosReloaded db = new Proyecto2DistribuidosReloaded();
-         db.dbConnectionDB1();
-         db.dbConnectionDB2();
+        db.dbConnectionDB1();
+        db.dbConnectionDB2();
+        
+        ServerSocket servidor1;
+        Socket sc;
+        DataInputStream in;
+        
         launch(args);
+        try
+        {
+            servidor1 = new ServerSocket(1002);
+            
+            while(true)
+            {
+                sc = servidor1.accept();
+                
+                PrintStream ps = new PrintStream(sc.getOutputStream());
+                sc.close();
+            }
+            
+        } catch (IOException ex)
+        {
+            Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
          
     }
     
