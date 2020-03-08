@@ -5,7 +5,10 @@
  */
 package proyecto2distribuidosreloaded;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -94,6 +97,24 @@ public class CentralController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        DataInputStream in;
+        
+        Socket sc;
+        try
+        {
+            sc = new Socket("127.0.0.1", 1002);
+            in = new DataInputStream(sc.getInputStream());
+            System.out.println(in.readUTF());
+            
+            sc.close();
+            
+        } catch (IOException ex)
+        {
+            Logger.getLogger(CentralController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         
         obtenerPreciosActuales();
         
