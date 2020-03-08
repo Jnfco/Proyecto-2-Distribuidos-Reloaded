@@ -5,11 +5,24 @@
  */
 package proyecto2distribuidosreloaded;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Application;
+import static javafx.application.Application.launch;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 /**
  *
  * @author Nicolás Hervias
  */
-public class Central
+public class Central extends Application
 {
     private float precio93;
     private float precio95;
@@ -100,5 +113,32 @@ public class Central
     public void setPrecioD(float precioD)
     {
         this.precioD = precioD;
+    }
+    
+    public static void main (String [] args){
+        
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+          DataInputStream in;
+          DataOutputStream out;
+        
+        Socket sc;
+        try
+        {
+            sc = new Socket("127.0.0.1", 5000);
+            in = new DataInputStream(sc.getInputStream());
+            out = new DataOutputStream(sc.getOutputStream());
+            out.writeUTF("!Hola mundo desde el cliente!");
+            
+            sc.close();
+            
+        } catch (IOException ex)
+        {
+            Logger.getLogger(CentralController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }

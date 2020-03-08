@@ -6,6 +6,7 @@
 package proyecto2distribuidosreloaded;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
@@ -75,21 +76,29 @@ public class Proyecto2DistribuidosReloaded extends Application {
         db.dbConnectionDB1();
         db.dbConnectionDB2();
         
-        ServerSocket servidor1;
-        Socket sc;
+        ServerSocket servidor1 = null;
+        Socket sc = null;
         DataInputStream in;
+        DataOutputStream out;
         
-        launch(args);
+        
         try
         {
-            servidor1 = new ServerSocket(1002);
+            servidor1 = new ServerSocket(5000);
+            System.out.println("Servidor iniciado");
             
             while(true)
             {
                 sc = servidor1.accept();
+                System.out.println("Cliente conectado");
+                in = new DataInputStream(sc.getInputStream());
+                out = new DataOutputStream(sc.getOutputStream());
+                String mensaje = in.readUTF();
                 
-                PrintStream ps = new PrintStream(sc.getOutputStream());
+                System.out.println(mensaje);
+                out.writeUTF("PATAS SERVER !");
                 sc.close();
+                System.out.println("Cliente desconectado");
             }
             
         } catch (IOException ex)
@@ -98,7 +107,7 @@ public class Proyecto2DistribuidosReloaded extends Application {
         }
         
         
-        
+        launch(args);
          
     }
     
