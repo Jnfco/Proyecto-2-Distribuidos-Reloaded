@@ -34,6 +34,10 @@ import javax.swing.JOptionPane;
  */
 public class Proyecto2DistribuidosReloaded extends Application {
     
+    private static final Central central = new Central();
+    private static final Distribuidor distribuidor1 = new Distribuidor();
+    private static final Distribuidor distribuidor2 = new Distribuidor();
+    
     public ObservableList<ObservableList> data1 = FXCollections.observableArrayList();
     public ObservableList<ObservableList> data2 = FXCollections.observableArrayList();
     private float precioKerosene;
@@ -66,11 +70,20 @@ public class Proyecto2DistribuidosReloaded extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        Proyecto2DistribuidosReloaded db = new Proyecto2DistribuidosReloaded();
-         db.dbConnectionDB1();
-         db.dbConnectionDB2();
+        //Proyecto2DistribuidosReloaded db = new Proyecto2DistribuidosReloaded();
+        //db.dbConnectionDB1();
+        //db.dbConnectionDB2();
+        
+        Thread cThread = new Thread(central);
+        Thread d1Thread = new Thread(distribuidor1);
+        Thread d2Thread = new Thread(distribuidor2);
+        
+        cThread.start();
+        d1Thread.start();
+        d2Thread.start();
+        
         launch(args);
-         
+        
     }
     
     public Connection dbConnectionDB1() {
@@ -297,5 +310,6 @@ public class Proyecto2DistribuidosReloaded extends Application {
         
         return id;
     }
+
     
 }

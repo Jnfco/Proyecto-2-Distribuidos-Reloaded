@@ -8,6 +8,7 @@ package proyecto2distribuidosreloaded;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,15 +20,16 @@ import javafx.stage.Stage;
  *
  * @author Nicolás Hervias
  */
-public class Central extends Application implements Runnable
+public class Distribuidor extends Application implements Runnable
 {
     private float precio93;
     private float precio95;
     private float precio97;
     private float precioK;
     private float precioD;
+    private float factorUtilidad;
     
-    public static void main(String[] args)
+    public static void main(String[] args) 
     {
         launch(args);
     }
@@ -35,23 +37,35 @@ public class Central extends Application implements Runnable
     @Override
     public void run()
     {
-        // implementar socket
+        // implementar Socket Server
+        ServerSocket servidor1 = null;
+        Socket sc = null;
         DataInputStream in;
         DataOutputStream out;
         
-        Socket sc;
+        
         try
         {
-            sc = new Socket("127.0.0.1", 1313);
-            in = new DataInputStream(sc.getInputStream());
-            out = new DataOutputStream(sc.getOutputStream());
-            out.writeUTF("!Hola mundo desde el cliente!");
+            servidor1 = new ServerSocket(1313);
+            System.out.println("Servidor iniciado");
             
-            sc.close();
+            while(true)
+            {
+                sc = servidor1.accept();
+                System.out.println("Cliente conectado");
+                in = new DataInputStream(sc.getInputStream());
+                out = new DataOutputStream(sc.getOutputStream());
+                String mensaje = in.readUTF();
+                
+                System.out.println(mensaje);
+                out.writeUTF("PATAS SERVER !");
+                sc.close();
+                System.out.println("Cliente desconectado");
+            }
             
         } catch (IOException ex)
         {
-            Logger.getLogger(CentralController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -135,10 +149,28 @@ public class Central extends Application implements Runnable
         this.precioD = precioD;
     }
 
+    /**
+     * @return the factorUtilidad
+     */
+    public float getFactorUtilidad()
+    {
+        return factorUtilidad;
+    }
+
+    /**
+     * @param factorUtilidad the factorUtilidad to set
+     */
+    public void setFactorUtilidad(float factorUtilidad)
+    {
+        this.factorUtilidad = factorUtilidad;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception
     {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+
+    
 }
