@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyecto2distribuidosreloaded;
+package clientecentral;
 
+import clientecentral.CentralController;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -22,7 +23,7 @@ import javafx.stage.Stage;
  *
  * @author Nicolás Hervias
  */
-public class Central extends Application
+public class Central extends Thread
 {
     private float precio93;
     private float precio95;
@@ -120,8 +121,8 @@ public class Central extends Application
         launch(args);
     }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+   
+    public void run(Stage primaryStage) {
           DataInputStream in;
           DataOutputStream out;
         

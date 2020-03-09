@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyecto2distribuidosreloaded;
+package clientecentral;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -19,6 +19,8 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -31,6 +33,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javax.swing.JOptionPane;
 
@@ -39,7 +42,7 @@ import javax.swing.JOptionPane;
  *
  * @author jnfco
  */
-public class CentralController implements Initializable {
+public class CentralController  implements Initializable  {
 
 //    private double precioK;
 //    private double precioD;
@@ -405,7 +408,7 @@ public class CentralController implements Initializable {
            connection = DriverManager.getConnection(url, user, password);
             //JOptionPane.showMessageDialog(null, "Connected");
         } catch (SQLException ex) {
-            Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteCentral.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Failed To Connect");
         }
 
@@ -474,5 +477,7 @@ public class CentralController implements Initializable {
             return Float.parseFloat(precioEntrada);
         }
     }
+    
+    
     
 }

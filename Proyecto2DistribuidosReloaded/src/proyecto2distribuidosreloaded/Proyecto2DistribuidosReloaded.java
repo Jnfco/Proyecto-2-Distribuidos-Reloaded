@@ -17,6 +17,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -24,6 +27,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,6 +35,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javax.swing.JOptionPane;
 
@@ -65,23 +70,20 @@ public class Proyecto2DistribuidosReloaded extends Application {
         stage.show();
         
         stage.setResizable(false);
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent we) {
+                System.exit(0);
+            }
+        });
     }
 
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        Proyecto2DistribuidosReloaded db = new Proyecto2DistribuidosReloaded();
-        db.dbConnectionDB1();
-        db.dbConnectionDB2();
-        
+    public  void conexion ()
+    {
         ServerSocket servidor1 = null;
         Socket sc = null;
         DataInputStream in;
         DataOutputStream out;
-        
-        
         try
         {
             servidor1 = new ServerSocket(5000);
@@ -93,26 +95,46 @@ public class Proyecto2DistribuidosReloaded extends Application {
                 System.out.println("Cliente conectado");
                 in = new DataInputStream(sc.getInputStream());
                 out = new DataOutputStream(sc.getOutputStream());
+                
+               // Thread t = new Central(); 
+  
+                // Invoking the start() method 
+                //t.start(); 
                 String mensaje = in.readUTF();
                 
                 System.out.println(mensaje);
                 out.writeUTF("PATAS SERVER !");
                 sc.close();
                 System.out.println("Cliente desconectado");
+                
             }
             
         } catch (IOException ex)
         {
             Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        Proyecto2DistribuidosReloaded db = new Proyecto2DistribuidosReloaded();
+        db.dbConnectionDB1();
+        db.dbConnectionDB2();
+        
         
         
         launch(args);
+        
+        
+        
+        
+        
          
     }
     
     public Connection dbConnectionDB1() {
-   
+            //conexion();
         
        
         try {
@@ -335,5 +357,8 @@ public class Proyecto2DistribuidosReloaded extends Application {
         
         return id;
     }
+    
+  
+    
     
 }
