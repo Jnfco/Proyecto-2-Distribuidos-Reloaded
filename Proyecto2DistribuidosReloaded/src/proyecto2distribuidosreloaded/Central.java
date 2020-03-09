@@ -9,6 +9,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -28,6 +33,7 @@ public class Central extends Application implements Runnable
     private float precioD;
     private int puerto;
     private String sql=" ";
+    private String mensaje="";
     
     public static void main(String[] args)
     {
@@ -46,9 +52,12 @@ public class Central extends Application implements Runnable
         {
             sc = new Socket("localhost", this.puerto);
             in = new DataInputStream(sc.getInputStream());
-            out = new DataOutputStream(sc.getOutputStream());
-            out.writeUTF(this.sql);
             
+            out = new DataOutputStream(sc.getOutputStream());
+            out.writeUTF(mensaje);
+            
+            String mensaje = in.readUTF();
+            System.out.println(mensaje);
             sc.close();
             
         } catch (IOException ex)
@@ -150,6 +159,10 @@ public class Central extends Application implements Runnable
     public void start(Stage primaryStage) throws Exception
     {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public void setMensaje(String mensaje){
+        this.mensaje=mensaje;
     }
 
 }

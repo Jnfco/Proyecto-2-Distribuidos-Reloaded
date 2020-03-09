@@ -10,6 +10,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -29,6 +34,12 @@ public class Distribuidor extends Application implements Runnable
     private float precioD;
     private float factorUtilidad;
     private int puerto;
+    String urlDB1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
+    String urlDB2 = "jdbc:postgresql://localhost:5432/Distribuidor2";
+    String user = "postgres";
+    String password = "Distribuidos1234";
+    private Connection c1;
+    private Connection c2;
     
     public static void main(String[] args) 
     {
@@ -58,6 +69,9 @@ public class Distribuidor extends Application implements Runnable
                 out = new DataOutputStream(sc.getOutputStream());
                 String mensaje = in.readUTF();
                 
+                if(mensaje.equals("actualizar")){
+                    actualizarPrecios(c1,c2);
+                }
                 System.out.println(mensaje);
                 out.writeUTF(" SERVER !");
                 sc.close();
@@ -76,6 +90,75 @@ public class Distribuidor extends Application implements Runnable
     public float getPrecio93()
     {
         return precio93;
+    }
+     public long  actualizarPrecios(Connection c1 ,Connection c2){
+         System.out.println("Entro!");
+        String sql = "UPDATE distribuidor\n" +"SET preciodiesel = ? , preciokerosene = ? ,precio93= ? , precio95=? ,precio97 =?" + "WHERE iddistribuidor =1;";
+        long id = 0;
+        
+        try (
+                PreparedStatement pstmt = c1.prepareStatement(sql,
+                Statement.RETURN_GENERATED_KEYS))
+        {
+            pstmt.setFloat(1, this.getPrecioD());
+            pstmt.setFloat(2, this.getPrecioK());
+            pstmt.setFloat(3, this.getPrecio93());
+            pstmt.setFloat(4, this.getPrecio95());
+            pstmt.setFloat(5, this.getPrecio97());
+            
+            int affectedRows = pstmt.executeUpdate();
+            
+            if(affectedRows > 0)
+            {
+                try (ResultSet rs = pstmt.getGeneratedKeys())
+                {
+                    if(rs.next())
+                    {
+                        id = rs.getLong(1);
+                    }
+                } catch (SQLException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            }
+            
+        } catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        
+        try (
+                PreparedStatement pstmt = c2.prepareStatement(sql,
+                Statement.RETURN_GENERATED_KEYS))
+        {
+            pstmt.setFloat(1, this.getPrecioD());
+            pstmt.setFloat(2, this.getPrecioK());
+            pstmt.setFloat(3, this.getPrecio93());
+            pstmt.setFloat(4, this.getPrecio95());
+            pstmt.setFloat(5, this.getPrecio97());
+            
+            int affectedRows = pstmt.executeUpdate();
+            
+            if(affectedRows > 0)
+            {
+                try (ResultSet rs = pstmt.getGeneratedKeys())
+                {
+                    if(rs.next())
+                    {
+                        id = rs.getLong(1);
+                    }
+                } catch (SQLException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            }
+            
+        } catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        
+        return id;
     }
 
     /**
