@@ -64,6 +64,12 @@ public class Proyecto2DistribuidosReloaded extends Application {
         stage.show();
 
         stage.setResizable(false);
+         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent we) {
+                System.exit(0);
+            }
+        });
 
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override

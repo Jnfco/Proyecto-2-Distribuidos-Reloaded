@@ -28,13 +28,15 @@ public class Venta {
     private Connection c1;
     private Connection c2;
     private float valorActual;
+    private float factorutilidad;
 
     String urlDB1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
     String urlDB2 = "jdbc:postgresql://localhost:5432/Distribuidor2";
     String user = "postgres";
     String password = "Distribuidos1234";
 
-    public Venta() {
+    public Venta(float factorutilidad) {
+        this.factorutilidad=factorutilidad/100;
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
             c1 = DriverManager.getConnection(urlDB1, user, password);
@@ -55,7 +57,7 @@ public class Venta {
             ResultSet rs = c1.createStatement().executeQuery(sql);
             while (rs.next())
             {
-                this.valorActual = Float.parseFloat(rs.getString(1));
+                this.valorActual = Float.parseFloat(rs.getString(1)) *(1 +this.factorutilidad) ;
             }
             
              
