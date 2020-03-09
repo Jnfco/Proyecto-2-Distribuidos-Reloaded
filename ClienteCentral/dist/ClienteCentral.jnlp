@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="ClienteCentral.jar" size="13284" download="eager" />
+    <jar href="ClienteCentral.jar" size="13188" download="eager" />
     <jar href="lib\postgresql-42.2.10.jar" size="927447" download="eager" />
   </resources>
   <jfx:javafx-desc  width="800" height="600" main-class="clientecentral.ClienteCentral"  name="ClienteCentral" />

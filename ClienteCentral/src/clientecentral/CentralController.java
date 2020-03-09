@@ -179,6 +179,8 @@ public class CentralController  implements Initializable  {
     @FXML
     public void handleActualizarPrecios ()
     {
+        
+        Thread cThread = new Thread(central);
         this.central.setPrecio93(obtenerNuevoPrecio(this.field93.getText(), this.central.getPrecio93()));
         this.central.setPrecio95(obtenerNuevoPrecio(this.field95.getText(), this.central.getPrecio95()));
         this.central.setPrecio97(obtenerNuevoPrecio(this.field97.getText(), this.central.getPrecio97()));
@@ -188,7 +190,15 @@ public class CentralController  implements Initializable  {
         this.lblAviso.setVisible(true);
 
         guardarPrecio();
+        central.setPuerto(1313);
+        System.out.println("puerto seteado ,ahora se creara el hilo central");
+        System.out.println("Hilo central creado");
+        central.setMensaje("Actualizar");
+         cThread.start();
+         System.out.println("Hilo central iniciado");
+        //cThread.start();
         actualizarPrecios();
+        //cThread.stop();
 
     }
 
@@ -201,11 +211,7 @@ public class CentralController  implements Initializable  {
                 PreparedStatement pstmt = c1.prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS))
         {
-            pstmt.setFloat(1, this.central.getPrecioD());
-            pstmt.setFloat(2, this.central.getPrecioK());
-            pstmt.setFloat(3, this.central.getPrecio93());
-            pstmt.setFloat(4, this.central.getPrecio95());
-            pstmt.setFloat(5, this.central.getPrecio97());
+            
             
             int affectedRows = pstmt.executeUpdate();
             

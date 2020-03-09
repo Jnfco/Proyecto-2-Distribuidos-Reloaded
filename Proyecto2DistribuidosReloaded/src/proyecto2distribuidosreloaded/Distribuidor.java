@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,38 +50,62 @@ public class Distribuidor extends Application implements Runnable
     @Override
     public void run()
     {
-        // implementar Socket Server
-        ServerSocket servidor1 = null;
-        Socket sc = null;
-        DataInputStream in;
-        DataOutputStream out;
         
         
         try
         {
-            servidor1 = new ServerSocket(puerto);
-            System.out.println("Servidor iniciado");
+            // implementar Socket Server
+            DriverManager.registerDriver(new org.postgresql.Driver());
+            c1 = DriverManager.getConnection(urlDB1, user, password);
+            c2 = DriverManager.getConnection(urlDB2, user, password);
+            ServerSocket servidor1 = null;
+            Socket sc = null;
+            DataInputStream in;
+            //DataOutputStream out;
             
-            while(true)
+
+            try
             {
-                sc = servidor1.accept();
-                System.out.println("Cliente conectado");
-                in = new DataInputStream(sc.getInputStream());
-                out = new DataOutputStream(sc.getOutputStream());
-                String mensaje = in.readUTF();
+                servidor1 = new ServerSocket(puerto);
+                System.out.println("Servidor iniciado");
                 
-                if(mensaje.equals("actualizar")){
-                    actualizarPrecios(c1,c2);
+                while(true)
+                {
+                    sc = servidor1.accept();
+                    System.out.println("Cliente conectado");
+                    in = new DataInputStream(sc.getInputStream());
+                    //out = new DataOutputStream(sc.getOutputStream());
+                    String mensaje = in.readUTF();
+                    
+                    if(mensaje.equals("Actualizar")){
+                        System.out.println("ALO");
+                        
+                        DataInputStream streamK = new DataInputStream(sc.getInputStream());
+                        DataInputStream streamD = new DataInputStream(sc.getInputStream());
+                        DataInputStream stream93 = new DataInputStream(sc.getInputStream());
+                        DataInputStream stream95 = new DataInputStream(sc.getInputStream());
+                        DataInputStream stream97 = new DataInputStream(sc.getInputStream());
+                        
+                        this.precioK = in.readFloat();
+                        this.precioD = in.readFloat();
+                        this.precio93 = in.readFloat();
+                        this.precio95 = in.readFloat();
+                        this.precio97 = in.readFloat();
+                        actualizarPrecios(c1,c2);
+                    }
+                    System.out.println(mensaje);
+                    //out.writeUTF(" SERVER !");
+                    sc.close();
+                    System.out.println("Cliente desconectado");
                 }
-                System.out.println(mensaje);
-                out.writeUTF(" SERVER !");
-                sc.close();
-                System.out.println("Cliente desconectado");
+                
+            } catch (IOException ex)
+            {
+                Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-        } catch (IOException ex)
+        } catch (SQLException ex)
         {
-            Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Distribuidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

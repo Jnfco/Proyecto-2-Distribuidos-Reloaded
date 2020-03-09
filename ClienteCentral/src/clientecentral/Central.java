@@ -40,24 +40,36 @@ public class Central extends Application implements Runnable
         launch(args);
     }
     
+    
     @Override
     public void run()
     {
         // implementar socket
-        DataInputStream in;
+        //DataInputStream in;
         DataOutputStream out;
         
         Socket sc;
         try
         {
-            sc = new Socket("localhost", this.puerto);
-            in = new DataInputStream(sc.getInputStream());
+            sc = new Socket("localhost", 1313);
+            //in = new DataInputStream(sc.getInputStream());
             
             out = new DataOutputStream(sc.getOutputStream());
             out.writeUTF(mensaje);
+            DataOutputStream precioK = new DataOutputStream(sc.getOutputStream());
+            DataOutputStream precioD = new DataOutputStream(sc.getOutputStream());
+            DataOutputStream precio93 = new DataOutputStream(sc.getOutputStream());
+            DataOutputStream precio95 = new DataOutputStream(sc.getOutputStream());
+            DataOutputStream precio97 = new DataOutputStream(sc.getOutputStream());
             
-            String mensaje = in.readUTF();
-            System.out.println(mensaje);
+            out.writeFloat(this.precioK);
+            out.writeFloat(this.precioD);
+            out.writeFloat(this.precio93);
+            out.writeFloat(this.precio95);
+            out.writeFloat(this.precio97);
+            
+            //String mensaje = in.readUTF();
+            System.out.println("Se recibio el mensaje: "+mensaje);
             sc.close();
             
         } catch (IOException ex)
