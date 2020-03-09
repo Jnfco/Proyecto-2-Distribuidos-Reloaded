@@ -17,6 +17,8 @@ import javafx.stage.Stage;
  */
 public class ClienteCentral extends Application {
     
+    private static final Central central = new Central();
+    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Central.fxml"));
@@ -31,6 +33,16 @@ public class ClienteCentral extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        central.setPuerto(1313);
+        central.setSql("Select surtidor.idsurtidor,distribuidor.iddistribuidor,surtidor.tipocombustible ,round(Avg(venta.cantidadlitros),2 )as promediolitros ,round(Avg(venta.valorventa),2) as promedioventa\n"
+                + "  From  distribuidor, surtidor, venta\n"
+                + "  where distribuidor.iddistribuidor = surtidor.iddistribuidor and surtidor.idsurtidor = venta.idsurtidor \n"
+                + "  Group By surtidor.idsurtidor, distribuidor.iddistribuidor;");
+        Thread cThread = new Thread(central);
+         cThread.start();
+         cThread = new Thread(central);
+        central.setPuerto(5000);
+        cThread.start();
         launch(args);
     }
     

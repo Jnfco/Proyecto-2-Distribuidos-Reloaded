@@ -5,35 +5,65 @@
  */
 package clientecentral;
 
-import clientecentral.CentralController;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
  *
  * @author Nicolás Hervias
  */
-public class Central extends Thread
+public class Central extends Application implements Runnable
 {
     private float precio93;
     private float precio95;
     private float precio97;
     private float precioK;
     private float precioD;
+    private int puerto;
+    private String sql=" ";
+    private String mensaje="";
     
-    public Central()
+    public static void main(String[] args)
     {
+        launch(args);
+    }
+    
+    @Override
+    public void run()
+    {
+        // implementar socket
+        DataInputStream in;
+        DataOutputStream out;
         
+        Socket sc;
+        try
+        {
+            sc = new Socket("localhost", this.puerto);
+            in = new DataInputStream(sc.getInputStream());
+            
+            out = new DataOutputStream(sc.getOutputStream());
+            out.writeUTF(mensaje);
+            
+            String mensaje = in.readUTF();
+            System.out.println(mensaje);
+            sc.close();
+            
+        } catch (IOException ex)
+        {
+            Logger.getLogger(Central.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -116,30 +146,23 @@ public class Central extends Thread
         this.precioD = precioD;
     }
     
-    public static void main (String [] args){
-        
-        launch(args);
+    public void setPuerto(int puerto)
+    {
+        this.puerto = puerto;
+    }
+    
+    public void setSql(String sql){
+        this.sql=sql;
     }
 
-   
-    public void run(Stage primaryStage) {
-          DataInputStream in;
-          DataOutputStream out;
-        
-        Socket sc;
-        try
-        {
-            sc = new Socket("127.0.0.1", 5000);
-            in = new DataInputStream(sc.getInputStream());
-            out = new DataOutputStream(sc.getOutputStream());
-            out.writeUTF("!Hola mundo desde el cliente!");
-            
-            sc.close();
-            
-        } catch (IOException ex)
-        {
-            Logger.getLogger(CentralController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+    @Override
+    public void start(Stage primaryStage) throws Exception
+    {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    public void setMensaje(String mensaje){
+        this.mensaje=mensaje;
+    }
+
 }
