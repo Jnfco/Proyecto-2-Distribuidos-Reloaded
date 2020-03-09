@@ -59,7 +59,7 @@ public class Distribuidor extends Application implements Runnable
                 String mensaje = in.readUTF();
                 
                 System.out.println(mensaje);
-                out.writeUTF("PATAS SERVER !");
+                out.writeUTF(" SERVER !");
                 sc.close();
                 System.out.println("Cliente desconectado");
             }

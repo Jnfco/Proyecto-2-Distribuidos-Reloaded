@@ -84,6 +84,11 @@ public class Proyecto2DistribuidosReloaded extends Application {
         //db.dbConnectionDB2();
         
         central.setPuerto(1313);
+        central.setSql("Select surtidor.idsurtidor,distribuidor.iddistribuidor,surtidor.tipocombustible ,round(Avg(venta.cantidadlitros),2 )as promediolitros ,round(Avg(venta.valorventa),2) as promedioventa\n"
+                    + "  From  distribuidor, surtidor, venta\n"
+                    + "  where distribuidor.iddistribuidor = surtidor.iddistribuidor and surtidor.idsurtidor = venta.idsurtidor \n"
+                    + "  Group By surtidor.idsurtidor, distribuidor.iddistribuidor;");
+        
         distribuidor1.setPuerto(1313);
         Thread cThread = new Thread(central);
         Thread d1Thread = new Thread(distribuidor1);

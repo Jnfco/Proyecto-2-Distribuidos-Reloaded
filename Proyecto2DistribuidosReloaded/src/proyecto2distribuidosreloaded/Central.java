@@ -27,6 +27,7 @@ public class Central extends Application implements Runnable
     private float precioK;
     private float precioD;
     private int puerto;
+    private String sql=" ";
     
     public static void main(String[] args)
     {
@@ -46,7 +47,7 @@ public class Central extends Application implements Runnable
             sc = new Socket("localhost", this.puerto);
             in = new DataInputStream(sc.getInputStream());
             out = new DataOutputStream(sc.getOutputStream());
-            out.writeUTF("!Hola mundo desde el cliente!");
+            out.writeUTF(this.sql);
             
             sc.close();
             
@@ -139,6 +140,10 @@ public class Central extends Application implements Runnable
     public void setPuerto(int puerto)
     {
         this.puerto = puerto;
+    }
+    
+    public void setSql(String sql){
+        this.sql=sql;
     }
 
     @Override

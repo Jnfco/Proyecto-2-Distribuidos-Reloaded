@@ -218,6 +218,37 @@ public class CentralController implements Initializable {
             System.out.println(ex.getMessage());
         }
         
+        try (
+                PreparedStatement pstmt = c2.prepareStatement(sql,
+                Statement.RETURN_GENERATED_KEYS))
+        {
+            pstmt.setFloat(1, this.central.getPrecioD());
+            pstmt.setFloat(2, this.central.getPrecioK());
+            pstmt.setFloat(3, this.central.getPrecio93());
+            pstmt.setFloat(4, this.central.getPrecio95());
+            pstmt.setFloat(5, this.central.getPrecio97());
+            
+            int affectedRows = pstmt.executeUpdate();
+            
+            if(affectedRows > 0)
+            {
+                try (ResultSet rs = pstmt.getGeneratedKeys())
+                {
+                    if(rs.next())
+                    {
+                        id = rs.getLong(1);
+                    }
+                } catch (SQLException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            }
+            
+        } catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        
         return id;
     }
     

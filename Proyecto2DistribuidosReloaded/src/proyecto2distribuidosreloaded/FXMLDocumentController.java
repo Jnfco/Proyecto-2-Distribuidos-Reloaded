@@ -85,7 +85,7 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private void agregarVenta1Handler(ActionEvent event)   
     {
-        Venta newVenta = new Venta();
+        Venta newVenta = new Venta(3);
         p2.ingresarVenta1(newVenta);
         p2.data1.removeAll(p2.data1);
         this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1));
@@ -94,7 +94,7 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private void agregarVenta2Handler(ActionEvent event)   
     {
-        Venta newVenta = new Venta();
+        Venta newVenta = new Venta(5);
         p2.ingresarVenta2(newVenta);
         p2.data2.removeAll(p2.data2);
         this.tablaEst2 = new TableView(p2.mostrarDatos2(tablaEst2));
