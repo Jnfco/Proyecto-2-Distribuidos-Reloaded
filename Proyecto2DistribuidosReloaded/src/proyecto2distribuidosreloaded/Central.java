@@ -26,6 +26,7 @@ public class Central extends Application implements Runnable
     private float precio97;
     private float precioK;
     private float precioD;
+    private int puerto;
     
     public static void main(String[] args)
     {
@@ -42,7 +43,7 @@ public class Central extends Application implements Runnable
         Socket sc;
         try
         {
-            sc = new Socket("127.0.0.1", 1313);
+            sc = new Socket("localhost", this.puerto);
             in = new DataInputStream(sc.getInputStream());
             out = new DataOutputStream(sc.getOutputStream());
             out.writeUTF("!Hola mundo desde el cliente!");
@@ -133,6 +134,11 @@ public class Central extends Application implements Runnable
     public void setPrecioD(float precioD)
     {
         this.precioD = precioD;
+    }
+    
+    public void setPuerto(int puerto)
+    {
+        this.puerto = puerto;
     }
 
     @Override

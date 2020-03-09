@@ -28,6 +28,7 @@ public class Distribuidor extends Application implements Runnable
     private float precioK;
     private float precioD;
     private float factorUtilidad;
+    private int puerto;
     
     public static void main(String[] args) 
     {
@@ -46,7 +47,7 @@ public class Distribuidor extends Application implements Runnable
         
         try
         {
-            servidor1 = new ServerSocket(1313);
+            servidor1 = new ServerSocket(puerto);
             System.out.println("Servidor iniciado");
             
             while(true)
@@ -163,6 +164,11 @@ public class Distribuidor extends Application implements Runnable
     public void setFactorUtilidad(float factorUtilidad)
     {
         this.factorUtilidad = factorUtilidad;
+    }
+    
+    public void setPuerto(int puerto)
+    {
+        this.puerto = puerto;
     }
 
     @Override

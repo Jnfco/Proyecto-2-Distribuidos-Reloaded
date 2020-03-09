@@ -18,6 +18,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,6 +26,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javax.swing.JOptionPane;
 
@@ -63,6 +65,13 @@ public class Proyecto2DistribuidosReloaded extends Application {
         stage.show();
         
         stage.setResizable(false);
+        
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent we) {
+                System.exit(0);
+            }
+        });
     }
 
     
@@ -74,12 +83,19 @@ public class Proyecto2DistribuidosReloaded extends Application {
         //db.dbConnectionDB1();
         //db.dbConnectionDB2();
         
+        central.setPuerto(1313);
+        distribuidor1.setPuerto(1313);
         Thread cThread = new Thread(central);
         Thread d1Thread = new Thread(distribuidor1);
-        Thread d2Thread = new Thread(distribuidor2);
-        
         cThread.start();
         d1Thread.start();
+        
+        cThread = new Thread(central);
+        central.setPuerto(5000);
+        distribuidor2.setPuerto(5000);
+        
+        Thread d2Thread = new Thread(distribuidor2);
+        cThread.start();
         d2Thread.start();
         
         launch(args);
