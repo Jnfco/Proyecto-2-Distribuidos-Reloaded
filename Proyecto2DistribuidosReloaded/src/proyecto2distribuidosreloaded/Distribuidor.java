@@ -68,10 +68,10 @@ public class Distribuidor extends Application implements Runnable
                 in = new DataInputStream(sc.getInputStream());
                 out = new DataOutputStream(sc.getOutputStream());
                 String mensaje = in.readUTF();
-                
+                /*
                 if(mensaje.equals("actualizar")){
                     actualizarPrecios(c1,c2);
-                }
+                }*/
                 System.out.println(mensaje);
                 out.writeUTF(" SERVER !");
                 sc.close();
@@ -91,75 +91,7 @@ public class Distribuidor extends Application implements Runnable
     {
         return precio93;
     }
-     public long  actualizarPrecios(Connection c1 ,Connection c2){
-         System.out.println("Entro!");
-        String sql = "UPDATE distribuidor\n" +"SET preciodiesel = ? , preciokerosene = ? ,precio93= ? , precio95=? ,precio97 =?" + "WHERE iddistribuidor =1;";
-        long id = 0;
-        
-        try (
-                PreparedStatement pstmt = c1.prepareStatement(sql,
-                Statement.RETURN_GENERATED_KEYS))
-        {
-            pstmt.setFloat(1, this.getPrecioD());
-            pstmt.setFloat(2, this.getPrecioK());
-            pstmt.setFloat(3, this.getPrecio93());
-            pstmt.setFloat(4, this.getPrecio95());
-            pstmt.setFloat(5, this.getPrecio97());
-            
-            int affectedRows = pstmt.executeUpdate();
-            
-            if(affectedRows > 0)
-            {
-                try (ResultSet rs = pstmt.getGeneratedKeys())
-                {
-                    if(rs.next())
-                    {
-                        id = rs.getLong(1);
-                    }
-                } catch (SQLException ex)
-                {
-                    System.out.println(ex.getMessage());
-                }
-            }
-            
-        } catch (SQLException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-        
-        try (
-                PreparedStatement pstmt = c2.prepareStatement(sql,
-                Statement.RETURN_GENERATED_KEYS))
-        {
-            pstmt.setFloat(1, this.getPrecioD());
-            pstmt.setFloat(2, this.getPrecioK());
-            pstmt.setFloat(3, this.getPrecio93());
-            pstmt.setFloat(4, this.getPrecio95());
-            pstmt.setFloat(5, this.getPrecio97());
-            
-            int affectedRows = pstmt.executeUpdate();
-            
-            if(affectedRows > 0)
-            {
-                try (ResultSet rs = pstmt.getGeneratedKeys())
-                {
-                    if(rs.next())
-                    {
-                        id = rs.getLong(1);
-                    }
-                } catch (SQLException ex)
-                {
-                    System.out.println(ex.getMessage());
-                }
-            }
-            
-        } catch (SQLException ex)
-        {
-            System.out.println(ex.getMessage());
-        }
-        
-        return id;
-    }
+     
 
     /**
      * @param precio93 the precio93 to set
