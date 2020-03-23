@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyecto2distribuidosreloaded;
+package distribuidor2;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -49,7 +49,7 @@ public class Proyecto2DistribuidosReloaded extends Application {
     private float precio97;
 
     Connection connection;
-    String url1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
+    String url1 = "jdbc:postgresql://localhost:5432/Distribuidor2";
     //String url2 = "jdbc:postgresql://localhost:5432/Distribuidor2";
     String user = "postgres";
     String password = "Distribuidos1234";
@@ -89,18 +89,14 @@ public class Proyecto2DistribuidosReloaded extends Application {
 
         
 
-        distribuidor1.setPuerto(1313);
         
-        Thread d1Thread = new Thread(distribuidor1);
-       
-        d1Thread.start();
 
-        /*
-        distribuidor2.setPuerto(5000);
-
-        Thread d2Thread = new Thread(distribuidor2);
         
-        d2Thread.start();*/
+        distribuidor1.setPuerto(5000);
+
+        Thread d2Thread = new Thread(distribuidor1);
+        
+        d2Thread.start();
 
         launch(args);
 
@@ -175,7 +171,6 @@ public class Proyecto2DistribuidosReloaded extends Application {
         return data1;
     }
 
-    
 
     public long ingresarVenta1(Venta venta) {
         String sql = "INSERT INTO venta (idsurtidor, cantidadlitros, valorventa, precioactual, fecha) "
@@ -209,6 +204,5 @@ public class Proyecto2DistribuidosReloaded extends Application {
         return id;
     }
 
-    
-
+   
 }

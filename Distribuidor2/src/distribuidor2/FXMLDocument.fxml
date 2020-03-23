@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyecto2distribuidosreloaded.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="distribuidor2.FXMLDocumentController">
     <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="650.0" prefWidth="1020.0">
          <center>
@@ -27,7 +27,7 @@
                      </children></Pane>
                   <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                      <children>
-                        <Button fx:id="estacion1" mnemonicParsing="false" onAction="#botonEstacion1Handler" prefHeight="80.0" prefWidth="224.0" text="Estación de Servicios 1" textAlignment="CENTER">
+                        <Button fx:id="estacion1" mnemonicParsing="false" onAction="#botonEstacion1Handler" prefHeight="80.0" prefWidth="224.0" text="Estación de Servicios 2" textAlignment="CENTER">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -96,7 +96,7 @@
                   <Pane prefHeight="20.0" />
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0">
                      <children>
-                        <Label text="Base de datos Estación de Servicios 1">
+                        <Label text="Base de datos Estación de Servicios 2">
                            <HBox.margin>
                               <Insets left="200.0" />
                            </HBox.margin>
@@ -106,7 +106,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tablaEst1" prefHeight="230.0" prefWidth="696.0" />
+                        <TableView fx:id="tablaEst2" prefHeight="230.0" prefWidth="696.0" />
                         <Pane prefWidth="50.0" />
                      </children>
                   </HBox>

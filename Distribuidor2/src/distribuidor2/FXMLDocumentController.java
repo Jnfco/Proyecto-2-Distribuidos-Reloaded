@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyecto2distribuidosreloaded;
+package distribuidor2;
 
 import java.io.IOException;
 import java.net.URL;
@@ -68,7 +68,7 @@ public class FXMLDocumentController implements Initializable
         // TODO
         this.estacion1.wrapTextProperty().setValue(true);
         //this.estacion2.wrapTextProperty().setValue(true);
-        this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1));
+        this.tablaEst2 = new TableView(p2.mostrarDatos1(tablaEst2));
         //this.tablaEst2 = new TableView(p2.mostrarDatos2(tablaEst2));
     }    
     
@@ -90,9 +90,8 @@ public class FXMLDocumentController implements Initializable
         Venta newVenta = new Venta(3);
         p2.ingresarVenta1(newVenta);
         p2.data1.removeAll(p2.data1);
-        this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1));
+        this.tablaEst2 = new TableView(p2.mostrarDatos1(tablaEst2));
     }
     
-   
     
 }
