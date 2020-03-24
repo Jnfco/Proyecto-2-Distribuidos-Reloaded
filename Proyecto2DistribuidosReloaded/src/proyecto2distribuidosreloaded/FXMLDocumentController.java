@@ -5,6 +5,7 @@
  */
 package proyecto2distribuidosreloaded;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -49,6 +51,21 @@ public class FXMLDocumentController implements Initializable
     private Button agregarVenta2;
     
     @FXML
+    private Button buttonKerosene;
+    
+    @FXML
+    private Button buttonDiesel;
+    
+    @FXML
+    private Button button93;
+    
+    @FXML
+    private Button button95;
+    
+    @FXML
+    private Button button97;
+    
+    @FXML
     private void handleButtonAction(ActionEvent event) throws IOException 
     {
         //Central central = new Central();
@@ -62,13 +79,44 @@ public class FXMLDocumentController implements Initializable
         stage.show(); */
     }
     
+    @FXML
+    public void handleButtonK(ActionEvent event)
+    {
+        p2.data1.removeAll(p2.data1);
+        this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1,1));
+    }
+    @FXML
+    public void handleButtonD(ActionEvent event)
+    {
+        p2.data1.removeAll(p2.data1);
+        this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1,2));
+    }
+    @FXML
+    public void handleButton93(ActionEvent event)
+    {
+        p2.data1.removeAll(p2.data1);
+        this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1,3));
+    }
+    @FXML
+    public void handleButton95(ActionEvent event)
+    {
+        p2.data1.removeAll(p2.data1);
+        this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1,4));
+    }
+    @FXML
+    public void handleButton97(ActionEvent event)
+    {
+        p2.data1.removeAll(p2.data1);
+        this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1,5));
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
         // TODO
         this.estacion1.wrapTextProperty().setValue(true);
         //this.estacion2.wrapTextProperty().setValue(true);
-        this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1));
+        
         //this.tablaEst2 = new TableView(p2.mostrarDatos2(tablaEst2));
     }    
     
@@ -90,7 +138,7 @@ public class FXMLDocumentController implements Initializable
         Venta newVenta = new Venta(3);
         p2.ingresarVenta1(newVenta);
         p2.data1.removeAll(p2.data1);
-        this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1));
+        //this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1));
     }
     
    

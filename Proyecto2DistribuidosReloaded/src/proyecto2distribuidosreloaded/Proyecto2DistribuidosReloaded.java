@@ -127,12 +127,12 @@ public class Proyecto2DistribuidosReloaded extends Application {
         return connection;
     }
 
-    public ObservableList<ObservableList> mostrarDatos1(TableView tablaEst1) {
+    public ObservableList<ObservableList> mostrarDatos1(TableView tablaEst1, int id) {
         try {
             Connection c = dbConnectionDB1();
             String sql = "SELECT venta.idventa, venta.idsurtidor,surtidor.tipocombustible ,venta.cantidadlitros, venta.precioactual, venta.valorventa, venta.fecha\n"
                     + "FROM venta \n"
-                    + "INNER JOIN surtidor ON venta.idsurtidor = surtidor.idsurtidor\n"
+                    + "INNER JOIN surtidor ON venta.idsurtidor = "+id+"\n"
                     + "order by fecha desc;";
 
             ResultSet rs = c.createStatement().executeQuery(sql);

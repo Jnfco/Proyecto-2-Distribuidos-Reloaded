@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="distribuidor2.FXMLDocumentController">
@@ -43,36 +42,31 @@
                      <children>
                         <StackPane prefHeight="60.0" prefWidth="30.0">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                              <Label text="K" />
+                              <Button fx:id="buttonKerosene" mnemonicParsing="false" onAction="#handleButtonK" prefHeight="60.0" prefWidth="30.0" text="K" />
                            </children>
                         </StackPane>
                         <Pane prefWidth="20.0" />
                         <StackPane prefHeight="60.0" prefWidth="30.0">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                              <Label text="93" />
+                              <Button fx:id="buttonDiesel" mnemonicParsing="false" onAction="#handleButtonD" prefHeight="60.0" prefWidth="30.0" text="D" />
                            </children>
                         </StackPane>
                         <Pane prefWidth="20.0" />
                         <StackPane prefHeight="60.0" prefWidth="30.0">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                              <Label text="95" />
+                              <Button fx:id="button93" mnemonicParsing="false" onAction="#handleButton93" prefHeight="60.0" prefWidth="30.0" text="93" />
                            </children>
                         </StackPane>
                         <Pane prefWidth="20.0" />
                         <StackPane prefHeight="60.0" prefWidth="30.0">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                              <Label text="97" />
+                              <Button fx:id="button95" mnemonicParsing="false" onAction="#handleButton95" prefHeight="60.0" prefWidth="30.0" text="95" />
                            </children>
                         </StackPane>
                         <Pane prefWidth="20.0" />
                         <StackPane prefHeight="60.0" prefWidth="30.0">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                              <Label text="D" />
+                              <Button fx:id="button97" mnemonicParsing="false" onAction="#handleButton97" prefHeight="60.0" prefWidth="30.0" text="97" />
                            </children>
                         </StackPane>
                         <Pane prefWidth="220.0">
@@ -106,7 +100,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tablaEst2" prefHeight="230.0" prefWidth="696.0" />
+                        <TableView fx:id="tablaEst1" prefHeight="230.0" prefWidth="696.0" />
                         <Pane prefWidth="50.0" />
                      </children>
                   </HBox>
