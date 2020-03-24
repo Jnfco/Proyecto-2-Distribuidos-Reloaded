@@ -26,7 +26,7 @@ import javafx.stage.Stage;
 public class FXMLDocumentController implements Initializable 
 {
     Proyecto2DistribuidosReloaded p2 = new Proyecto2DistribuidosReloaded();
-    
+    private int surtidorSeleccionado;
     @FXML
     private Button centralButton;
     
@@ -48,33 +48,53 @@ public class FXMLDocumentController implements Initializable
     @FXML
     private Button agregarVenta2;
     
-     @FXML
+    @FXML
+    private Button buttonKerosene;
+    
+    @FXML
+    private Button buttonDiesel;
+    
+    @FXML
+    private Button button93;
+    
+    @FXML
+    private Button button95;
+    
+    @FXML
+    private Button button97;
+    
+    @FXML
     public void handleButtonK(ActionEvent event)
     {
+        this.surtidorSeleccionado =1;
         p2.data1.removeAll(p2.data1);
         this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1,1));
     }
     @FXML
     public void handleButtonD(ActionEvent event)
     {
+        this.surtidorSeleccionado =2;
         p2.data1.removeAll(p2.data1);
         this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1,2));
     }
     @FXML
     public void handleButton93(ActionEvent event)
     {
+        this.surtidorSeleccionado =3;
         p2.data1.removeAll(p2.data1);
         this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1,3));
     }
     @FXML
     public void handleButton95(ActionEvent event)
     {
+        this.surtidorSeleccionado =4;
         p2.data1.removeAll(p2.data1);
         this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1,4));
     }
     @FXML
     public void handleButton97(ActionEvent event)
     {
+        this.surtidorSeleccionado =5;
         p2.data1.removeAll(p2.data1);
         this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1,5));
     }
@@ -115,13 +135,27 @@ public class FXMLDocumentController implements Initializable
         System.out.println("e2");
     }
     
-    @FXML
-    private void agregarVenta1Handler(ActionEvent event)   
+     @FXML
+    private void agregarVenta1Handler(ActionEvent event) throws IOException   
     {
-        Venta newVenta = new Venta(3);
-        p2.ingresarVenta1(newVenta);
-        p2.data1.removeAll(p2.data1);
-        //this.tablaEst2 = new TableView(p2.mostrarDatos1(tablaEst2));
+        System.out.println("Venta del surtidor: "+ this.surtidorSeleccionado);
+        //Venta newVenta = new Venta(3);
+        //p2.ingresarVenta1(newVenta);
+        //p2.data1.removeAll(p2.data1);
+        //this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1));
+        
+        
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InterfazVenta.fxml")); //Se crea el fxmloader para la interfaz de venta
+        Stage stage = new Stage(); 
+        Parent root = (Parent)fxmlLoader.load();
+        InterfazVentaController ventaController = fxmlLoader.<InterfazVentaController>getController();//llamamos al controlador para la interfaz venta
+        ventaController.setIdSurtidor(surtidorSeleccionado);// seteamos el id del surtidor marcado por le boton al controlador de la venta, asi llega con el id especifico
+        
+        //interfaz.setIdSurtidor(surtidorSeleccionado);
+       // stage.setTitle("Register"); 
+        stage.setScene(new Scene(root,448,300));
+        stage.setResizable(false);
+        stage.show(); 
     }
     
     
