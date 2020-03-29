@@ -34,6 +34,23 @@ public class Venta {
     //String urlDB2 = "jdbc:postgresql://localhost:5432/Distribuidor2";
     String user = "postgres";
     String password = "Distribuidos1234";
+    
+    public Venta()
+    {
+        try {
+            DriverManager.registerDriver(new org.postgresql.Driver());
+            c1 = DriverManager.getConnection(urlDB1, user, password);
+            //c2 = DriverManager.getConnection(urlDB2, user, password);
+            
+            //this.factorutilidad = 
+            //this.idSurtidor = (int) ((Math.random() * ((5 - 1) + 1)) + 1);
+            //this.cantidadLitros = (float) ((Math.random() * ((20 - 5) + 1)) + 5);
+            //this.precioActual = (float) ((Math.random() * ((950 - 600) + 1)) + 600);
+            //this.valorVenta = this.cantidadLitros * this.precioActual;
+        } catch (SQLException ex) {
+            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public Venta(float factorutilidad) {
         this.factorutilidad=factorutilidad/100;
@@ -52,17 +69,37 @@ public class Venta {
     }
     
     public float  getPrecioActual() throws SQLException{
-         String sql = "select preciolitro from surtidor where idsurtidor ="+this.idSurtidor;
+        String sql = "select preciolitro from surtidor where idsurtidor ="+this.idSurtidor;
 
-            ResultSet rs = c1.createStatement().executeQuery(sql);
-            while (rs.next())
-            {
-                this.valorActual = Float.parseFloat(rs.getString(1)) *(1 +this.factorutilidad) ;
-            }
-            
-             
-            return this.valorActual;
+        Proyecto2DistribuidosReloaded p2 = new Proyecto2DistribuidosReloaded();
+        Connection c = p2.dbConnectionDB1();
+        
+        
+        ResultSet rs = c.createStatement().executeQuery(sql);
+        while (rs.next())
+        {
+            this.valorActual = (float) (Float.parseFloat(rs.getString(1)) * (1 + (getFactorUtilidad() / 100.0))) ;
+        }
+
+        return this.valorActual;
     }
+    
+    public float getFactorUtilidad() throws SQLException
+    {
+        String sql = "SELECT factorutilidad from distribuidor where iddistribuidor = 1;";
+        
+        Proyecto2DistribuidosReloaded p2 = new Proyecto2DistribuidosReloaded();
+        Connection c = p2.dbConnectionDB1();
+        
+        ResultSet rs = c.createStatement().executeQuery(sql);
+        
+        while(rs.next())
+        {
+            this.factorutilidad = Float.parseFloat(rs.getString(1));
+        }
+        return this.factorutilidad;
+    }
+    
 
     /**
      * @return the idSurtidor

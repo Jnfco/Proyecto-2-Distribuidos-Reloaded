@@ -171,39 +171,5 @@ public class Proyecto2DistribuidosReloaded extends Application {
 
         return data1;
     }
-
-
-    public long ingresarVenta1(Venta venta) {
-        String sql = "INSERT INTO venta (idsurtidor, cantidadlitros, valorventa, precioactual, fecha) "
-                + "VALUES (?, ?, ?, ?, current_timestamp);";
-
-        long id = 0;
-
-        try ( Connection c = dbConnectionDB1();  PreparedStatement pstmt = c.prepareStatement(sql,
-                Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setInt(1, venta.getIdSurtidor());
-            pstmt.setFloat(2, venta.getCantidadLitros());
-            pstmt.setFloat(3, venta.getValorVenta());
-            pstmt.setFloat(4, venta.getPrecioActual());
-
-            int affectedRows = pstmt.executeUpdate();
-
-            if (affectedRows > 0) {
-                try ( ResultSet rs = pstmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        id = rs.getLong(1);
-                    }
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-
-        return id;
-    }
-
    
 }

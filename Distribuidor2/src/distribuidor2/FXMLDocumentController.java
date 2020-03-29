@@ -144,19 +144,23 @@ public class FXMLDocumentController implements Initializable
         //p2.data1.removeAll(p2.data1);
         //this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1));
         
-        
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InterfazVenta.fxml")); //Se crea el fxmloader para la interfaz de venta
-        Stage stage = new Stage(); 
-        Parent root = (Parent)fxmlLoader.load();
-        InterfazVentaController ventaController = fxmlLoader.<InterfazVentaController>getController();//llamamos al controlador para la interfaz venta
-        ventaController.setIdSurtidor(surtidorSeleccionado);// seteamos el id del surtidor marcado por le boton al controlador de la venta, asi llega con el id especifico
-        
-        //interfaz.setIdSurtidor(surtidorSeleccionado);
-       // stage.setTitle("Register"); 
-        stage.setScene(new Scene(root,448,300));
-        stage.setResizable(false);
-        stage.show(); 
+        if(!(this.surtidorSeleccionado == 0))
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("InterfazVenta.fxml")); //Se crea el fxmloader para la interfaz de venta
+            Stage stage = new Stage(); 
+            Parent root = (Parent)fxmlLoader.load();
+            InterfazVentaController ventaController = fxmlLoader.<InterfazVentaController>getController();//llamamos al controlador para la interfaz venta
+            ventaController.setIdSurtidor(surtidorSeleccionado);// seteamos el id del surtidor marcado por le boton al controlador de la venta, asi llega con el id especifico
+
+            //interfaz.setIdSurtidor(surtidorSeleccionado);
+            // stage.setTitle("Register"); 
+            stage.setScene(new Scene(root,448,300));
+            stage.setResizable(false);
+            stage.show();
+        }
+         
     }
+    
     
     
 }
