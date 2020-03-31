@@ -26,7 +26,9 @@ import javafx.stage.Stage;
  */
 public class InterfazVentaController implements Initializable {
 
-    private String url = "";
+    private Connection c;
+    private Connection c2;
+    private String url1;
     
     @FXML
     private Button aceptar;
@@ -65,8 +67,18 @@ public class InterfazVentaController implements Initializable {
         v.setValorVenta(v.getPrecioActual() * v.getCantidadLitros());
         
         //Aca poner el codigo para llamar a la venta!!!
-        ingresarVenta1(v);
-        ingresarVentaBackup(v);
+        System.out.println("url: " + getUrl1());
+        if(getUrl1().equals(""))
+        {
+            ingresarVentaBackup(v);
+        }
+        else
+        {
+           ingresarVenta1(v);
+           ingresarVentaBackup(v);
+        }
+        
+        
         
         
         //Cerrar ventana
@@ -103,7 +115,7 @@ public class InterfazVentaController implements Initializable {
         long id = 0;
         
 
-        try ( Connection c = p2.dbConnectionDB1();  PreparedStatement pstmt = c.prepareStatement(sql,
+        try ( PreparedStatement pstmt = this.c.prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, venta.getIdSurtidor());
             pstmt.setFloat(2, venta.getCantidadLitros());
@@ -136,7 +148,7 @@ public class InterfazVentaController implements Initializable {
         long id = 0;
         
 
-        try ( Connection c = p2.dbConnectionDB2();  PreparedStatement pstmt = c.prepareStatement(sql,
+        try ( PreparedStatement pstmt = this.getC2().prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, venta.getIdSurtidor());
             pstmt.setFloat(2, venta.getCantidadLitros());
@@ -162,20 +174,48 @@ public class InterfazVentaController implements Initializable {
         return id;
     }
 
-    /**
-     * @return the url
-     */
-    public String getUrl()
+    
+    public Connection getConnection()
     {
-        return url;
+        return c;
+    }
+
+    
+    public void setConnection(Connection c)
+    {
+        this.c = c;
     }
 
     /**
-     * @param url the url to set
+     * @return the url1
      */
-    public void setUrl(String url)
+    public String getUrl1()
     {
-        this.url = url;
+        return url1;
+    }
+
+    /**
+     * @param url1 the url1 to set
+     */
+    public void setUrl1(String url1)
+    {
+        this.url1 = url1;
+    }
+
+    /**
+     * @return the c2
+     */
+    public Connection getC2()
+    {
+        return c2;
+    }
+
+    /**
+     * @param c2 the c2 to set
+     */
+    public void setC2(Connection c2)
+    {
+        this.c2 = c2;
     }
 
 }

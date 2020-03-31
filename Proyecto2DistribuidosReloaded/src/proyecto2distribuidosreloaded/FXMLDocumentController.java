@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,6 +28,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -134,12 +136,15 @@ public class FXMLDocumentController implements Initializable
     public void handleButtonCaida(ActionEvent event)
     {
         p2.setUrl("");
-        p2.setTimestam();
+        p2.setTimestamp();
+        this.reconectar.setDisable(false);
+        this.caida.setDisable(true);
     }
     
     @FXML
     public void handleButtonReconectar(ActionEvent event) throws SQLException
     {
+        JOptionPane.showMessageDialog(null, "Conectado a la base de datos principal.");
         p2.setUrl("jdbc:postgresql://localhost:5432/Distribuidor1");
         
         Connection c2 = p2.dbConnectionDB2();
@@ -148,7 +153,7 @@ public class FXMLDocumentController implements Initializable
         String sqlSelect = "SELECT * FROM venta WHERE fecha > '" + p2.ts + "';";
         ResultSet rs = c2.createStatement().executeQuery(sqlSelect);
         
-        ArrayList<Venta> ventas = new ArrayList<>();
+        //ArrayList<Venta> ventas = new ArrayList<>();
         
         while (rs.next()) 
         {
@@ -174,15 +179,50 @@ public class FXMLDocumentController implements Initializable
                         v.setPrecioActual(Float.parseFloat(rs.getString(i)));
                         break;
                     case 6:
-                        v.setFecha(rs.getString(i));
+                        v.setFecha(rs.getTimestamp(i));
                         break;
                     default:
                         throw new AssertionError();
                 }
-                //Iterate Column
-                rs.getString(i);
             }
+            //ventas.add(v);
+            
+            String sqlInsert = "INSERT INTO venta (idsurtidor, cantidadlitros, valorventa, precioactual, fecha) "
+                + "VALUES (?, ?, ?, ?, ?);";
+            
+            long id = 0;
+        
+
+            try ( PreparedStatement pstmt = c1.prepareStatement(sqlInsert,
+                    Statement.RETURN_GENERATED_KEYS))
+            {
+                pstmt.setInt(1, v.getIdSurtidor());
+                pstmt.setFloat(2, v.getCantidadLitros());
+                pstmt.setFloat(3, v.getValorVenta());
+                pstmt.setFloat(4, v.getPrecioActual());
+                pstmt.setTimestamp(5, v.getFecha());
+
+                int affectedRows = pstmt.executeUpdate();
+
+                if (affectedRows > 0) {
+                    try ( ResultSet rs2 = pstmt.getGeneratedKeys()) {
+                        if (rs2.next()) {
+                            id = rs2.getLong(1);
+                        }
+                    } catch (SQLException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
+
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+
         }
+        p2.resetTimestamp();
+        
+        this.reconectar.setDisable(true);
+        this.caida.setDisable(false);
         
     }
     
@@ -196,6 +236,8 @@ public class FXMLDocumentController implements Initializable
         //this.estacion2.wrapTextProperty().setValue(true);
         
         //this.tablaEst2 = new TableView(p2.mostrarDatos2(tablaEst2));
+        
+        this.reconectar.setDisable(true);
     }    
     
     @FXML
@@ -204,6 +246,8 @@ public class FXMLDocumentController implements Initializable
         Connection c = p2.dbConnectionDB1();
         Connection c2 = p2.dbConnectionDB2();
         
+        
+        // transacción actualiza el preciolitro del surtidor aplicándole el factor de utilidad
         String tran = "begin;\n"
                 + "update surtidor\n"
                 + "set preciolitro = (select preciokerosene from distribuidor) * ( 1 + ((select factorutilidad from distribuidor where iddistribuidor = 1) / 100))\n"
@@ -244,7 +288,7 @@ public class FXMLDocumentController implements Initializable
     }
     
     @FXML
-    private void agregarVenta1Handler(ActionEvent event) throws IOException   
+    private void agregarVenta1Handler(ActionEvent event) throws IOException, SQLException   
     {
         System.out.println("Venta del surtidor: "+ this.surtidorSeleccionado);
         //Venta newVenta = new Venta(3);
@@ -260,6 +304,12 @@ public class FXMLDocumentController implements Initializable
             InterfazVentaController ventaController = fxmlLoader.<InterfazVentaController>getController();//llamamos al controlador para la interfaz venta
             ventaController.setIdSurtidor(surtidorSeleccionado);// seteamos el id del surtidor marcado por le boton al controlador de la venta, asi llega con el id especifico
 
+            ventaController.setConnection(p2.dbConnectionDB1());
+            ventaController.setC2(p2.dbConnectionDB2());
+            
+            
+            ventaController.setUrl1(p2.getUrl1());
+            
             //interfaz.setIdSurtidor(surtidorSeleccionado);
             // stage.setTitle("Register"); 
             stage.setScene(new Scene(root,448,300));

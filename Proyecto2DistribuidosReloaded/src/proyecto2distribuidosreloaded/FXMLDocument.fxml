@@ -99,11 +99,11 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="80.0" prefWidth="200.0">
                      <children>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonCaida" prefHeight="25.0" prefWidth="71.0" text="Caida">
+                        <Button fx:id="caida" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleButtonCaida" prefHeight="25.0" prefWidth="71.0" text="Caida">
                            <HBox.margin>
                               <Insets right="20.0" />
                            </HBox.margin></Button>
-                        <Button mnemonicParsing="false" onAction="#handleButtonReconectar" prefHeight="25.0" prefWidth="79.0" text="Reconectar">
+                        <Button fx:id="reconectar" mnemonicParsing="false" onAction="#handleButtonReconectar" prefHeight="25.0" prefWidth="79.0" text="Reconectar">
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin></Button>

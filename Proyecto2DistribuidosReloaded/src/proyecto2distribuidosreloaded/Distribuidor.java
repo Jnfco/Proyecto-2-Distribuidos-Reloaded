@@ -42,7 +42,6 @@ public class Distribuidor extends Application implements Runnable
     private Connection c1;
     private Connection c2;
     
-    Proyecto2DistribuidosReloaded p2 = new Proyecto2DistribuidosReloaded();
     
     public static void main(String[] args) 
     {
@@ -58,7 +57,8 @@ public class Distribuidor extends Application implements Runnable
         {
             // implementar Socket Server
             DriverManager.registerDriver(new org.postgresql.Driver());
-            c1 = p2.dbConnectionDB1();
+            
+            
             //c2 = DriverManager.getConnection(urlDB2, user, password);
             ServerSocket servidor1 = null;
             Socket sc = null;
@@ -93,7 +93,7 @@ public class Distribuidor extends Application implements Runnable
                         this.precio93 = in.readFloat();
                         this.precio95 = in.readFloat();
                         this.precio97 = in.readFloat();
-                        actualizarPrecios(c1);
+                        actualizarPrecios(getC1());
                     }
                     System.out.println(mensaje);
                     //out.writeUTF(" SERVER !");
@@ -119,12 +119,44 @@ public class Distribuidor extends Application implements Runnable
         return precio93;
     }
      public long  actualizarPrecios(Connection c1 ){
-         System.out.println("Entro!");
+        System.out.println("Entro!");
         String sql = "UPDATE distribuidor\n" +"SET preciodiesel = ? , preciokerosene = ? ,precio93= ? , precio95=? ,precio97 =?" + "WHERE iddistribuidor =1;";
         long id = 0;
         
         try (
                 PreparedStatement pstmt = c1.prepareStatement(sql,
+                Statement.RETURN_GENERATED_KEYS))
+        {
+            pstmt.setFloat(1, this.getPrecioD());
+            pstmt.setFloat(2, this.getPrecioK());
+            pstmt.setFloat(3, this.getPrecio93());
+            pstmt.setFloat(4, this.getPrecio95());
+            pstmt.setFloat(5, this.getPrecio97());
+            
+            int affectedRows = pstmt.executeUpdate();
+            
+            if(affectedRows > 0)
+            {
+                try (ResultSet rs = pstmt.getGeneratedKeys())
+                {
+                    if(rs.next())
+                    {
+                        id = rs.getLong(1);
+                    }
+                } catch (SQLException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            }
+            
+        } catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        
+        
+        try (
+                PreparedStatement pstmt = getC2().prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS))
         {
             pstmt.setFloat(1, this.getPrecioD());
@@ -256,6 +288,38 @@ public class Distribuidor extends Application implements Runnable
     public void start(Stage primaryStage) throws Exception
     {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * @return the c1
+     */
+    public Connection getC1()
+    {
+        return c1;
+    }
+
+    /**
+     * @param c1 the c1 to set
+     */
+    public void setC1(Connection c1)
+    {
+        this.c1 = c1;
+    }
+
+    /**
+     * @return the c2
+     */
+    public Connection getC2()
+    {
+        return c2;
+    }
+
+    /**
+     * @param c2 the c2 to set
+     */
+    public void setC2(Connection c2)
+    {
+        this.c2 = c2;
     }
 
 

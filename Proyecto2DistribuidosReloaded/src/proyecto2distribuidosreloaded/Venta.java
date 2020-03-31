@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -30,14 +31,14 @@ public class Venta {
     private Connection c2;
     private float valorActual;
     private float factorutilidad;
-    private String fecha;
+    private Timestamp fecha;
 
-    public String getFecha()
+    public Timestamp getFecha()
     {
         return fecha;
     }
 
-    public void setFecha(String fecha)
+    public void setFecha(Timestamp fecha)
     {
         this.fecha = fecha;
     }

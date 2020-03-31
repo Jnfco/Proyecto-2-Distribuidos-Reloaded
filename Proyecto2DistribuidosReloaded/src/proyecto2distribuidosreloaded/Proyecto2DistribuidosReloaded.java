@@ -40,6 +40,7 @@ public class Proyecto2DistribuidosReloaded extends Application {
 
     //
     private static final Distribuidor distribuidor1 = new Distribuidor();
+    
     //private static final Distribuidor distribuidor2 = new Distribuidor();
 
     public ObservableList<ObservableList> data1 = FXCollections.observableArrayList();
@@ -50,14 +51,14 @@ public class Proyecto2DistribuidosReloaded extends Application {
     private float precio95;
     private float precio97;
 
-    Connection connection;
-    Connection connection2;
-    String url1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
-    String url2 = "jdbc:postgresql://localhost:5432/Distribuidor1Resp";
-    String user = "postgres";
-    String password = "Distribuidos1234";
+    static Connection connection;
+    static Connection connection2;
+    static String url1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
+    static String url2 = "jdbc:postgresql://localhost:5432/Distribuidor1Resp";
+    static String user = "postgres";
+    static String password = "Distribuidos1234";
     
-    Timestamp ts;
+    Timestamp ts = null;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -95,6 +96,8 @@ public class Proyecto2DistribuidosReloaded extends Application {
         
 
         distribuidor1.setPuerto(1313);
+        distribuidor1.setC1(dbConnectionDB1());
+        distribuidor1.setC2(dbConnectionDB2());
         
         Thread d1Thread = new Thread(distribuidor1);
        
@@ -111,7 +114,7 @@ public class Proyecto2DistribuidosReloaded extends Application {
 
     }
 
-    public Connection dbConnectionDB1() throws SQLException {
+    public static Connection dbConnectionDB1() throws SQLException {
 
         try {
 
@@ -132,16 +135,17 @@ public class Proyecto2DistribuidosReloaded extends Application {
         } catch (SQLException ex) {
             //connection2 = DriverManager.getConnection(url2, user, password);
             //Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Failed To Connect to Main Database");
+            JOptionPane.showMessageDialog(null, "Falla de conexión a la base de datos principal.\n"
+                    + "Conectando a la Base de datos de respaldo.");
             System.out.println("dbconection2 url: " + url1);
-            this.dbConnectionDB2();
+            dbConnectionDB2();
             //return connection2;
         }
 
         return connection;
     }
     
-    public Connection dbConnectionDB2() throws SQLException {
+    public static Connection dbConnectionDB2() throws SQLException {
 
         try {
 
@@ -218,11 +222,25 @@ public class Proyecto2DistribuidosReloaded extends Application {
         return data1;
     }
     
-    public void setTimestam()
+    public void setTimestamp()
     {
-        Date d = new Date();
-        long time = d.getTime();
-        this.ts = new Timestamp(time);
+        if(this.ts == null)
+        {
+            Date d = new Date();
+            long time = d.getTime();
+            this.ts = new Timestamp(time); 
+        }
+
+    }
+    
+    public void resetTimestamp()
+    {
+        this.ts = null;
+    }
+    
+    public String getUrl1()
+    {
+        return this.url1;
     }
 
 }
