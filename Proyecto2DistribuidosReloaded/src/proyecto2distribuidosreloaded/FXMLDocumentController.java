@@ -139,6 +139,7 @@ public class FXMLDocumentController implements Initializable
         p2.setTimestamp();
         this.reconectar.setDisable(false);
         this.caida.setDisable(true);
+        p2.setUrlDistribuidor();
     }
     
     @FXML
@@ -146,6 +147,7 @@ public class FXMLDocumentController implements Initializable
     {
         JOptionPane.showMessageDialog(null, "Conectado a la base de datos principal.");
         p2.setUrl("jdbc:postgresql://localhost:5432/Distribuidor1");
+        p2.setUrlDistribuidor();
         
         Connection c2 = p2.dbConnectionDB2();
         Connection c1 = p2.dbConnectionDB1();

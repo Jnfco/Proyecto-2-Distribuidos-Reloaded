@@ -39,7 +39,7 @@ import javax.swing.JOptionPane;
 public class Proyecto2DistribuidosReloaded extends Application {
 
     //
-    private static final Distribuidor distribuidor1 = new Distribuidor();
+    private static  Distribuidor distribuidor1 = new Distribuidor();
     
     //private static final Distribuidor distribuidor2 = new Distribuidor();
 
@@ -98,11 +98,13 @@ public class Proyecto2DistribuidosReloaded extends Application {
         distribuidor1.setPuerto(1313);
         distribuidor1.setC1(dbConnectionDB1());
         distribuidor1.setC2(dbConnectionDB2());
+        distribuidor1.setUrl1(url1);
         
         Thread d1Thread = new Thread(distribuidor1);
        
         d1Thread.start();
 
+        
         /*
         distribuidor2.setPuerto(5000);
 
@@ -241,6 +243,10 @@ public class Proyecto2DistribuidosReloaded extends Application {
     public String getUrl1()
     {
         return this.url1;
+    }
+    
+    public void setUrlDistribuidor(){
+        this.distribuidor1.setUrl1(this.url1);
     }
 
 }
