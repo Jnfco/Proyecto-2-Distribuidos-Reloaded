@@ -34,6 +34,17 @@ public class Distribuidor extends Application implements Runnable {
     private float precioK;
     private float precioD;
     private float factorUtilidad;
+    private int idDistribuidor;
+
+    public int getIdDistribuidor()
+    {
+        return idDistribuidor;
+    }
+
+    public void setIdDistribuidor(int idDistribuidor)
+    {
+        this.idDistribuidor = idDistribuidor;
+    }
     private int puerto;
     String urlDB1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
     //String urlDB2 = "jdbc:postgresql://localhost:5432/Distribuidor2";

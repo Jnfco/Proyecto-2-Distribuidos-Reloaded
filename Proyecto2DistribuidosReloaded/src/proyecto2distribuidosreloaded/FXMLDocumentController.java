@@ -226,6 +226,82 @@ public class FXMLDocumentController implements Initializable
         this.reconectar.setDisable(true);
         this.caida.setDisable(false);
         
+        
+        String sqlDist = "SELECT * FROM distribuidor;";
+        
+        ResultSet rs2 = c2.createStatement().executeQuery(sqlSelect);
+        Distribuidor d = new Distribuidor();
+        
+        while (rs2.next())
+        {
+            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) 
+            {
+                switch (i)
+                {
+                    case 1:
+                        d.setIdDistribuidor(Integer.parseInt(rs.getString(i)));
+                        break;
+                    case 2:
+                        d.setPrecioK(Float.parseFloat(rs.getString(i)));
+                        break;
+                    case 3:
+                        d.setPrecioD(Float.parseFloat(rs.getString(i)));
+                        break;
+                    case 4:
+                        d.setPrecio93(Float.parseFloat(rs.getString(i)));
+                        break;
+                    case 5:
+                        d.setPrecio95(Float.parseFloat(rs.getString(i)));
+                        break;
+                    case 6:
+                        d.setPrecio97(Float.parseFloat(rs.getString(i)));
+                        break;
+                    case 7:
+                        d.setFactorUtilidad(Float.parseFloat(rs.getString(i)));
+                        break;
+                    default:
+                        throw new AssertionError();
+                }
+            }
+        }
+        
+        String sqlupdate = "UPDATE distribuidor SET preciodiesel = ?" 
+                + ", preciokerosene = ?"
+                + ", precio93 = ?" 
+                + ", precio95 = ?" 
+                + ", precio97 = ?" 
+                + ", factorutilidad = ?" 
+                + ";";
+        
+        long id = 0;
+
+        try (
+                 PreparedStatement pstmt = c2.prepareStatement(sqlupdate,
+                        Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setFloat(1, d.getPrecioD());
+            pstmt.setFloat(2, d.getPrecioK());
+            pstmt.setFloat(3, d.getPrecio93());
+            pstmt.setFloat(4, d.getPrecio95());
+            pstmt.setFloat(5, d.getPrecio97());
+            pstmt.setFloat(6, d.getFactorUtilidad());
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                try ( ResultSet rs3 = pstmt.getGeneratedKeys()) {
+                    if (rs3.next()) {
+                        id = rs3.getLong(1);
+                    }
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        
     }
     
     
