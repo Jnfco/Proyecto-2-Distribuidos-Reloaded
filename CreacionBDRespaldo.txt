@@ -1,0 +1,4 @@
+Para crear la base de datos de respaldo, primero desconectar en PGAdmin y ejecutar la query correspondiente
+
+CREATE DATABASE "Distribuidor1Resp" WITH TEMPLATE "Distribuidor1" OWNER postgres;
+CREATE DATABASE "Distribuidor2Resp" WITH TEMPLATE "Distribuidor2" OWNER postgres;

@@ -68,6 +68,12 @@ public class FXMLDocumentController implements Initializable
     private Button button97;
     
     @FXML
+    private Button caida;
+    
+    @FXML
+    private Button reconectar;
+    
+    @FXML
     private void handleButtonAction(ActionEvent event) throws IOException 
     {
         //Central central = new Central();
@@ -116,6 +122,19 @@ public class FXMLDocumentController implements Initializable
         p2.data1.removeAll(p2.data1);
         this.tablaEst1 = new TableView(p2.mostrarDatos1(tablaEst1,5));
     }
+    
+    @FXML
+    public void handleButtonCaida(ActionEvent event)
+    {
+        p2.setUrl("");
+    }
+    
+    @FXML
+    public void handleButtonReconectar(ActionEvent event)
+    {
+        p2.setUrl("jdbc:postgresql://localhost:5432/Distribuidor1");
+    }
+    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) 

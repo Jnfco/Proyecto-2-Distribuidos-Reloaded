@@ -42,6 +42,8 @@ public class Distribuidor extends Application implements Runnable
     private Connection c1;
     private Connection c2;
     
+    Proyecto2DistribuidosReloaded p2 = new Proyecto2DistribuidosReloaded();
+    
     public static void main(String[] args) 
     {
         launch(args);
@@ -56,8 +58,8 @@ public class Distribuidor extends Application implements Runnable
         {
             // implementar Socket Server
             DriverManager.registerDriver(new org.postgresql.Driver());
-            c1 = DriverManager.getConnection(urlDB1, user, password);
-            c2 = DriverManager.getConnection(urlDB2, user, password);
+            //c1 = DriverManager.getConnection(urlDB1, user, password);
+            c2 = p2.dbConnectionDB1();
             ServerSocket servidor1 = null;
             Socket sc = null;
             DataInputStream in;

@@ -49,8 +49,9 @@ public class Proyecto2DistribuidosReloaded extends Application {
     private float precio97;
 
     Connection connection;
+    Connection connection2;
     String url1 = "jdbc:postgresql://localhost:5432/Distribuidor2";
-    //String url2 = "jdbc:postgresql://localhost:5432/Distribuidor2";
+    String url2 = "jdbc:postgresql://localhost:5432/Distribuidor2Resp";
     String user = "postgres";
     String password = "Distribuidos1234";
 
@@ -101,8 +102,13 @@ public class Proyecto2DistribuidosReloaded extends Application {
         launch(args);
 
     }
+    
+    public void setUrl(String url)
+    {
+        this.url1 = url;
+    }
 
-    public Connection dbConnectionDB1() {
+    public Connection dbConnectionDB1() throws SQLException {
 
         try {
 
@@ -116,13 +122,15 @@ public class Proyecto2DistribuidosReloaded extends Application {
             connection = DriverManager.getConnection(url1, user, password);
             //JOptionPane.showMessageDialog(null, "Connected");
         } catch (SQLException ex) {
+            connection2 = DriverManager.getConnection(url2, user, password);
             Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Failed To Connect");
+            JOptionPane.showMessageDialog(null, "Failed To Connect to Main Database");
+            return connection2;
         }
 
         return connection;
     }
-
+    
     public ObservableList<ObservableList> mostrarDatos1(TableView tablaEst1,int id) {
         try {
             Connection c = dbConnectionDB1();

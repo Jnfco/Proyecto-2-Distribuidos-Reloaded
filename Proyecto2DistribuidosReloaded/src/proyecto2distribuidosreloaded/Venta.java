@@ -31,8 +31,8 @@ public class Venta {
     private float valorActual;
     private float factorutilidad;
 
-    String urlDB1 = "jdbc:postgresql://localhost:5432/Distribuidor2";
-    //String urlDB2 = "jdbc:postgresql://localhost:5432/Distribuidor2";
+    String urlDB1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
+    //String urlDB2 = "jdbc:postgresql://localhost:5432/Distribuidor2Resp";
     String user = "postgres";
     String password = "Distribuidos1234";
     

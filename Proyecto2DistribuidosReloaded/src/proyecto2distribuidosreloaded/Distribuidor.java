@@ -36,11 +36,13 @@ public class Distribuidor extends Application implements Runnable
     private float factorUtilidad;
     private int puerto;
     String urlDB1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
-    String urlDB2 = "jdbc:postgresql://localhost:5432/Distribuidor2";
+    //String urlDB2 = "jdbc:postgresql://localhost:5432/Distribuidor2";
     String user = "postgres";
     String password = "Distribuidos1234";
     private Connection c1;
     private Connection c2;
+    
+    Proyecto2DistribuidosReloaded p2 = new Proyecto2DistribuidosReloaded();
     
     public static void main(String[] args) 
     {
@@ -56,8 +58,8 @@ public class Distribuidor extends Application implements Runnable
         {
             // implementar Socket Server
             DriverManager.registerDriver(new org.postgresql.Driver());
-            c1 = DriverManager.getConnection(urlDB1, user, password);
-            c2 = DriverManager.getConnection(urlDB2, user, password);
+            c1 = p2.dbConnectionDB1();
+            //c2 = DriverManager.getConnection(urlDB2, user, password);
             ServerSocket servidor1 = null;
             Socket sc = null;
             DataInputStream in;

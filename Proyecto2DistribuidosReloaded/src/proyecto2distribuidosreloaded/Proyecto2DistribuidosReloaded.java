@@ -49,8 +49,9 @@ public class Proyecto2DistribuidosReloaded extends Application {
     private float precio97;
 
     Connection connection;
+    Connection connection2;
     String url1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
-    //String url2 = "jdbc:postgresql://localhost:5432/Distribuidor2";
+    String url2 = "jdbc:postgresql://localhost:5432/Distribuidor1Resp";
     String user = "postgres";
     String password = "Distribuidos1234";
 
@@ -106,7 +107,7 @@ public class Proyecto2DistribuidosReloaded extends Application {
 
     }
 
-    public Connection dbConnectionDB1() {
+    public Connection dbConnectionDB1() throws SQLException {
 
         try {
 
@@ -118,15 +119,50 @@ public class Proyecto2DistribuidosReloaded extends Application {
 
         try {
             connection = DriverManager.getConnection(url1, user, password);
+            //if (connection == (null))
+            //{
+              //  connection = DriverManager.getConnection(url2, user, password);
+            //}
             //JOptionPane.showMessageDialog(null, "Connected");
         } catch (SQLException ex) {
+            //connection2 = DriverManager.getConnection(url2, user, password);
             Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Failed To Connect");
+            JOptionPane.showMessageDialog(null, "Failed To Connect to Main Database");
+            this.dbConnectionDB2();
+            //return connection2;
         }
 
         return connection;
     }
+    
+    public Connection dbConnectionDB2() throws SQLException {
 
+        try {
+
+            Class.forName("org.postgresql.Driver");
+
+        } catch (ClassNotFoundException e) {
+            e.getMessage();
+        }
+
+        try {
+            connection = DriverManager.getConnection(url2, user, password);
+            //JOptionPane.showMessageDialog(null, "Connected");
+        } catch (SQLException ex) {
+            //connection2 = DriverManager.getConnection(url2, user, password);
+            Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Failed To Connect to Main Database");
+            //return connection2;
+        }
+
+        return connection;
+    }
+   
+    public void setUrl(String url)
+    {
+        this.url1 = url;
+    }
+    
     public ObservableList<ObservableList> mostrarDatos1(TableView tablaEst1, int id) {
         try {
             Connection c = dbConnectionDB1();
