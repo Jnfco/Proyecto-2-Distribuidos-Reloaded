@@ -8,8 +8,10 @@ package distribuidor2;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -154,25 +156,34 @@ public class FXMLDocumentController implements Initializable
     {
         Connection c = p2.dbConnectionDB1();
         
-        String tran = "begin;\n"
-                + "update surtidor\n"
-                + "set preciolitro = (select preciokerosene from distribuidor)\n"
-                + "where tipocombustible = 'Kerosene';\n"
-                + "update surtidor\n"
-                + "set preciolitro = (select preciodiesel from distribuidor)\n"
-                + "where tipocombustible = 'Diesel';\n"
-                + "update surtidor\n"
-                + "set preciolitro = (select precio93 from distribuidor)\n"
-                + "where tipocombustible = '93';\n"
-                + "update surtidor\n"
-                + "set preciolitro = (select precio95 from distribuidor)\n"
-                + "where tipocombustible = '95';\n"
-                + "update surtidor\n"
-                + "set preciolitro = (select precio97 from distribuidor)\n"
-                + "where tipocombustible = '97';\n"
-                + "commit;";
+       final  String tran = "begin; "+
+                 "update surtidor "
+                + "set preciolitro = (select preciokerosene from distribuidor) "
+                + "where tipocombustible = 'Kerosene'; "
+                + "update surtidor "
+                + "set preciolitro = (select preciodiesel from distribuidor) "
+                + "where tipocombustible = 'Diesel'; "
+                + "update surtidor "
+                + "set preciolitro = (select precio93 from distribuidor) "
+                + "where tipocombustible = '93'; "
+                + "update surtidor "
+                + "set preciolitro = (select precio95 from distribuidor) "
+                + "where tipocombustible = '95'; "
+                + "update surtidor "
+                + "set preciolitro = (select precio97 from distribuidor) "
+                + "where tipocombustible = '97';"
+                +"commit;";
+        Statement st = c.createStatement();
+        //PreparedStatement pst = c.prepareStatement(tran);
+        c.setAutoCommit(false);
+        System.out.println("Prepared statement: "+st);
+        System.out.println("exec"+st.execute(tran));
+        //st.execute(tran);
         
-        ResultSet rs = c.createStatement().executeQuery(tran);
+        c.commit();
+        c.setAutoCommit(true);
+        
+        //ResultSet rs = c.createStatement().executeQuery(tran);
     }
     
      @FXML

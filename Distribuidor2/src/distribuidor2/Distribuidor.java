@@ -68,7 +68,7 @@ public class Distribuidor extends Application implements Runnable
 
             try
             {
-                servidor1 = new ServerSocket(puerto);
+                servidor1 = new ServerSocket(1314);
                 System.out.println("Servidor iniciado");
                 
                 while(true)
@@ -93,7 +93,7 @@ public class Distribuidor extends Application implements Runnable
                         this.precio93 = in.readFloat();
                         this.precio95 = in.readFloat();
                         this.precio97 = in.readFloat();
-                        actualizarPrecios(c1);
+                        actualizarPrecios(c2);
                     }
                     System.out.println(mensaje);
                     //out.writeUTF(" SERVER !");

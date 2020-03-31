@@ -48,19 +48,21 @@ public class Central extends Application implements Runnable
         //DataInputStream in;
         DataOutputStream out;
         
-        Socket sc;
+        Socket sc1;
+        Socket sc2;
         try
         {
-            sc = new Socket("localhost", 1313);
+            sc1 = new Socket("localhost", 1313);
+            sc2 = new Socket("localhost", 1314);
             //in = new DataInputStream(sc.getInputStream());
             
-            out = new DataOutputStream(sc.getOutputStream());
+            out = new DataOutputStream(sc1.getOutputStream());
             out.writeUTF(mensaje);
-            DataOutputStream precioK = new DataOutputStream(sc.getOutputStream());
-            DataOutputStream precioD = new DataOutputStream(sc.getOutputStream());
-            DataOutputStream precio93 = new DataOutputStream(sc.getOutputStream());
-            DataOutputStream precio95 = new DataOutputStream(sc.getOutputStream());
-            DataOutputStream precio97 = new DataOutputStream(sc.getOutputStream());
+            DataOutputStream precioK = new DataOutputStream(sc1.getOutputStream());
+            DataOutputStream precioD = new DataOutputStream(sc1.getOutputStream());
+            DataOutputStream precio93 = new DataOutputStream(sc1.getOutputStream());
+            DataOutputStream precio95 = new DataOutputStream(sc1.getOutputStream());
+            DataOutputStream precio97 = new DataOutputStream(sc1.getOutputStream());
             
             out.writeFloat(this.precioK);
             out.writeFloat(this.precioD);
@@ -70,7 +72,25 @@ public class Central extends Application implements Runnable
             
             //String mensaje = in.readUTF();
             System.out.println("Se recibio el mensaje: "+mensaje);
-            sc.close();
+            sc1.close();
+            
+            out = new DataOutputStream(sc2.getOutputStream());
+            out.writeUTF(mensaje);
+            precioK = new DataOutputStream(sc2.getOutputStream());
+            precioD = new DataOutputStream(sc2.getOutputStream());
+            precio93 = new DataOutputStream(sc2.getOutputStream());
+            precio95 = new DataOutputStream(sc2.getOutputStream());
+            precio97 = new DataOutputStream(sc2.getOutputStream());
+            
+            out.writeFloat(this.precioK);
+            out.writeFloat(this.precioD);
+            out.writeFloat(this.precio93);
+            out.writeFloat(this.precio95);
+            out.writeFloat(this.precio97);
+            
+            //String mensaje = in.readUTF();
+            System.out.println("Se recibio el mensaje: "+mensaje);
+            sc2.close();
             
         } catch (IOException ex)
         {
