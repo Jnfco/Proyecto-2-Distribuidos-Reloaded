@@ -126,7 +126,7 @@ public class Proyecto2DistribuidosReloaded extends Application {
             //JOptionPane.showMessageDialog(null, "Connected");
         } catch (SQLException ex) {
             //connection2 = DriverManager.getConnection(url2, user, password);
-            Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Failed To Connect to Main Database");
             this.dbConnectionDB2();
             //return connection2;
