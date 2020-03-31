@@ -7,6 +7,9 @@ package distribuidor2;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -139,22 +142,37 @@ public class FXMLDocumentController implements Initializable
     public void initialize(URL url, ResourceBundle rb) 
     {
         // TODO
-        this.estacion1.wrapTextProperty().setValue(true);
+        this.estacion2.wrapTextProperty().setValue(true);
         //this.estacion2.wrapTextProperty().setValue(true);
         //this.tablaEst2 = new TableView(p2.mostrarDatos1(tablaEst2));
         //this.tablaEst2 = new TableView(p2.mostrarDatos2(tablaEst2));
     }    
     
-    @FXML
-    private void botonEstacion1Handler(ActionEvent event)
-    {
-        System.out.println("e1");
-    }
     
     @FXML
-    private void botonEstacion2Handler(ActionEvent event)
+    private void botonEstacion2Handler(ActionEvent event) throws SQLException
     {
-        System.out.println("e2");
+        Connection c = p2.dbConnectionDB1();
+        
+        String tran = "begin;\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select preciokerosene from distribuidor)\n"
+                + "where tipocombustible = 'Kerosene';\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select preciodiesel from distribuidor)\n"
+                + "where tipocombustible = 'Diesel';\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select precio93 from distribuidor)\n"
+                + "where tipocombustible = '93';\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select precio95 from distribuidor)\n"
+                + "where tipocombustible = '95';\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select precio97 from distribuidor)\n"
+                + "where tipocombustible = '97';\n"
+                + "commit;";
+        
+        ResultSet rs = c.createStatement().executeQuery(tran);
     }
     
      @FXML

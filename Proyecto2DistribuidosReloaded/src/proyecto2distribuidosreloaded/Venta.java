@@ -79,7 +79,7 @@ public class Venta {
         ResultSet rs = c.createStatement().executeQuery(sql);
         while (rs.next())
         {
-            this.valorActual = (float) (Float.parseFloat(rs.getString(1)) * (1 + (getFactorUtilidad() / 100.0))) ;
+            this.valorActual = (float) (Float.parseFloat(rs.getString(1))/* * (1 + (getFactorUtilidad() / 100.0))*/) ;
         }
 
         return this.valorActual;
