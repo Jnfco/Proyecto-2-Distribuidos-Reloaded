@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -54,6 +56,8 @@ public class Proyecto2DistribuidosReloaded extends Application {
     String url2 = "jdbc:postgresql://localhost:5432/Distribuidor1Resp";
     String user = "postgres";
     String password = "Distribuidos1234";
+    
+    Timestamp ts;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -119,6 +123,7 @@ public class Proyecto2DistribuidosReloaded extends Application {
 
         try {
             connection = DriverManager.getConnection(url1, user, password);
+            System.out.println("dbconection1 url: " + url1);
             //if (connection == (null))
             //{
               //  connection = DriverManager.getConnection(url2, user, password);
@@ -128,6 +133,7 @@ public class Proyecto2DistribuidosReloaded extends Application {
             //connection2 = DriverManager.getConnection(url2, user, password);
             //Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Failed To Connect to Main Database");
+            System.out.println("dbconection2 url: " + url1);
             this.dbConnectionDB2();
             //return connection2;
         }
@@ -212,5 +218,11 @@ public class Proyecto2DistribuidosReloaded extends Application {
         return data1;
     }
     
+    public void setTimestam()
+    {
+        Date d = new Date();
+        long time = d.getTime();
+        this.ts = new Timestamp(time);
+    }
 
 }

@@ -30,6 +30,17 @@ public class Venta {
     private Connection c2;
     private float valorActual;
     private float factorutilidad;
+    private String fecha;
+
+    public String getFecha()
+    {
+        return fecha;
+    }
+
+    public void setFecha(String fecha)
+    {
+        this.fecha = fecha;
+    }
 
     String urlDB1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
     //String urlDB2 = "jdbc:postgresql://localhost:5432/Distribuidor2Resp";
@@ -152,4 +163,8 @@ public class Venta {
         this.valorVenta = valorVenta;
     }
 
+    public void setIdVenta(int idVenta)
+    {
+        
+    }
 }

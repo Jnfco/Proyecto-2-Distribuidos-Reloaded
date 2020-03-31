@@ -156,23 +156,23 @@ public class FXMLDocumentController implements Initializable
     {
         Connection c = p2.dbConnectionDB1();
         
-       final  String tran = "begin; "+
-                 "update surtidor "
-                + "set preciolitro = (select preciokerosene from distribuidor) "
-                + "where tipocombustible = 'Kerosene'; "
-                + "update surtidor "
-                + "set preciolitro = (select preciodiesel from distribuidor) "
-                + "where tipocombustible = 'Diesel'; "
-                + "update surtidor "
-                + "set preciolitro = (select precio93 from distribuidor) "
-                + "where tipocombustible = '93'; "
-                + "update surtidor "
-                + "set preciolitro = (select precio95 from distribuidor) "
-                + "where tipocombustible = '95'; "
-                + "update surtidor "
-                + "set preciolitro = (select precio97 from distribuidor) "
-                + "where tipocombustible = '97';"
-                +"commit;";
+        String tran = "begin;\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select preciokerosene from distribuidor) * ( 1 + ((select factorutilidad from distribuidor where iddistribuidor = 1) / 100))\n"
+                + "where tipocombustible = 'Kerosene';\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select preciodiesel from distribuidor) * ( 1 + ((select factorutilidad from distribuidor where iddistribuidor = 1) / 100))\n"
+                + "where tipocombustible = 'Diesel';\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select precio93 from distribuidor) * ( 1 + ((select factorutilidad from distribuidor where iddistribuidor = 1) / 100))\n"
+                + "where tipocombustible = '93';\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select precio95 from distribuidor) * ( 1 + ((select factorutilidad from distribuidor where iddistribuidor = 1) / 100))\n"
+                + "where tipocombustible = '95';\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select precio97 from distribuidor) * ( 1 + ((select factorutilidad from distribuidor where iddistribuidor = 1) / 100))\n"
+                + "where tipocombustible = '97';\n"
+                + "commit;";
         Statement st = c.createStatement();
         //PreparedStatement pst = c.prepareStatement(tran);
         c.setAutoCommit(false);
@@ -183,7 +183,6 @@ public class FXMLDocumentController implements Initializable
         c.commit();
         c.setAutoCommit(true);
         
-        //ResultSet rs = c.createStatement().executeQuery(tran);
     }
     
      @FXML

@@ -8,6 +8,13 @@ package proyecto2distribuidosreloaded;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -127,12 +134,56 @@ public class FXMLDocumentController implements Initializable
     public void handleButtonCaida(ActionEvent event)
     {
         p2.setUrl("");
+        p2.setTimestam();
     }
     
     @FXML
-    public void handleButtonReconectar(ActionEvent event)
+    public void handleButtonReconectar(ActionEvent event) throws SQLException
     {
         p2.setUrl("jdbc:postgresql://localhost:5432/Distribuidor1");
+        
+        Connection c2 = p2.dbConnectionDB2();
+        Connection c1 = p2.dbConnectionDB1();
+        
+        String sqlSelect = "SELECT * FROM venta WHERE fecha > '" + p2.ts + "';";
+        ResultSet rs = c2.createStatement().executeQuery(sqlSelect);
+        
+        ArrayList<Venta> ventas = new ArrayList<>();
+        
+        while (rs.next()) 
+        {
+            Venta v = new Venta();
+            //Iterate Row
+            //ObservableList<String> row = FXCollections.observableArrayList();
+            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) 
+            {
+                switch (i)
+                {
+                    case 1:
+                        v.setIdSurtidor(Integer.parseInt(rs.getString(i)));
+                        break;
+                    case 2:
+                        v.setCantidadLitros(Float.parseFloat(rs.getString(i)));
+                        break;
+                    case 3:
+                        v.setValorVenta(Float.parseFloat(rs.getString(i)));
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        v.setPrecioActual(Float.parseFloat(rs.getString(i)));
+                        break;
+                    case 6:
+                        v.setFecha(rs.getString(i));
+                        break;
+                    default:
+                        throw new AssertionError();
+                }
+                //Iterate Column
+                rs.getString(i);
+            }
+        }
+        
     }
     
     
@@ -148,9 +199,42 @@ public class FXMLDocumentController implements Initializable
     }    
     
     @FXML
-    private void botonEstacion1Handler(ActionEvent event)
+    private void botonEstacion1Handler(ActionEvent event) throws SQLException
     {
-        System.out.println("e1");
+        Connection c = p2.dbConnectionDB1();
+        Connection c2 = p2.dbConnectionDB2();
+        
+        String tran = "begin;\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select preciokerosene from distribuidor) * ( 1 + ((select factorutilidad from distribuidor where iddistribuidor = 1) / 100))\n"
+                + "where tipocombustible = 'Kerosene';\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select preciodiesel from distribuidor) * ( 1 + ((select factorutilidad from distribuidor where iddistribuidor = 1) / 100))\n"
+                + "where tipocombustible = 'Diesel';\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select precio93 from distribuidor) * ( 1 + ((select factorutilidad from distribuidor where iddistribuidor = 1) / 100))\n"
+                + "where tipocombustible = '93';\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select precio95 from distribuidor) * ( 1 + ((select factorutilidad from distribuidor where iddistribuidor = 1) / 100))\n"
+                + "where tipocombustible = '95';\n"
+                + "update surtidor\n"
+                + "set preciolitro = (select precio97 from distribuidor) * ( 1 + ((select factorutilidad from distribuidor where iddistribuidor = 1) / 100))\n"
+                + "where tipocombustible = '97';\n"
+                + "commit;";
+        Statement st = c.createStatement();
+        Statement st2 = c2.createStatement();
+        //PreparedStatement pst = c.prepareStatement(tran);
+        c.setAutoCommit(false);
+        c2.setAutoCommit(false);
+        //System.out.println("Prepared statement: "+st);
+        //System.out.println("exec"+st.execute(tran));
+        //st.execute(tran);
+        
+        c.commit();
+        c2.commit();
+        c.setAutoCommit(true);
+        c2.setAutoCommit(true);
+        
     }
     
     @FXML

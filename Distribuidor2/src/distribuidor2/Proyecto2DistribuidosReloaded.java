@@ -179,5 +179,28 @@ public class Proyecto2DistribuidosReloaded extends Application {
 
         return data1;
     }
+    
+    public Connection dbConnectionDB2() throws SQLException {
+
+        try {
+
+            Class.forName("org.postgresql.Driver");
+
+        } catch (ClassNotFoundException e) {
+            e.getMessage();
+        }
+
+        try {
+            connection = DriverManager.getConnection(url2, user, password);
+            //JOptionPane.showMessageDialog(null, "Connected");
+        } catch (SQLException ex) {
+            //connection2 = DriverManager.getConnection(url2, user, password);
+            Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Failed To Connect to Main Database");
+            //return connection2;
+        }
+
+        return connection;
+    }
    
 }
