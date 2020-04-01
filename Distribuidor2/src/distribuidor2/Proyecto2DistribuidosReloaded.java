@@ -11,9 +11,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -37,7 +40,8 @@ import javax.swing.JOptionPane;
 public class Proyecto2DistribuidosReloaded extends Application {
 
     //
-    private static final Distribuidor distribuidor1 = new Distribuidor();
+    private static  Distribuidor distribuidor1 = new Distribuidor();
+    
     //private static final Distribuidor distribuidor2 = new Distribuidor();
 
     public ObservableList<ObservableList> data1 = FXCollections.observableArrayList();
@@ -48,12 +52,14 @@ public class Proyecto2DistribuidosReloaded extends Application {
     private float precio95;
     private float precio97;
 
-    Connection connection;
-    Connection connection2;
-    String url1 = "jdbc:postgresql://localhost:5432/Distribuidor2";
-    String url2 = "jdbc:postgresql://localhost:5432/Distribuidor2Resp";
-    String user = "postgres";
-    String password = "Distribuidos1234";
+    static Connection connection;
+    static Connection connection2;
+    static String url1 = "jdbc:postgresql://localhost:5432/Distribuidor2";
+    static String url2 = "jdbc:postgresql://localhost:5432/Distribuidor2Resp";
+    static String user = "postgres";
+    static String password = "Distribuidos1234";
+    
+    Timestamp ts = null;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -90,25 +96,28 @@ public class Proyecto2DistribuidosReloaded extends Application {
 
         
 
+        distribuidor1.setPuerto(1314);
+        distribuidor1.setC1(dbConnectionDB1());
+        distribuidor1.setC2(dbConnectionDB2());
+        distribuidor1.setUrl1(url1);
         
+        Thread d1Thread = new Thread(distribuidor1);
+       
+        d1Thread.start();
 
         
-        distribuidor1.setPuerto(5000);
+        /*
+        distribuidor2.setPuerto(5000);
 
-        Thread d2Thread = new Thread(distribuidor1);
+        Thread d2Thread = new Thread(distribuidor2);
         
-        d2Thread.start();
+        d2Thread.start();*/
 
         launch(args);
 
     }
-    
-    public void setUrl(String url)
-    {
-        this.url1 = url;
-    }
 
-    public Connection dbConnectionDB1() throws SQLException {
+    public static Connection dbConnectionDB1() throws SQLException {
 
         try {
 
@@ -120,23 +129,59 @@ public class Proyecto2DistribuidosReloaded extends Application {
 
         try {
             connection = DriverManager.getConnection(url1, user, password);
+            System.out.println("dbconection1 url: " + url1);
+            //if (connection == (null))
+            //{
+              //  connection = DriverManager.getConnection(url2, user, password);
+            //}
             //JOptionPane.showMessageDialog(null, "Connected");
         } catch (SQLException ex) {
-            connection2 = DriverManager.getConnection(url2, user, password);
-            Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Failed To Connect to Main Database");
-            return connection2;
+            //connection2 = DriverManager.getConnection(url2, user, password);
+            //Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Falla de conexión a la base de datos principal.\n"
+                    + "Conectando a la Base de datos de respaldo.");
+            System.out.println("dbconection2 url: " + url1);
+            dbConnectionDB2();
+            //return connection2;
         }
 
         return connection;
     }
     
-    public ObservableList<ObservableList> mostrarDatos1(TableView tablaEst1,int id) {
+    public static Connection dbConnectionDB2() throws SQLException {
+
+        try {
+
+            Class.forName("org.postgresql.Driver");
+
+        } catch (ClassNotFoundException e) {
+            e.getMessage();
+        }
+
+        try {
+            connection = DriverManager.getConnection(url2, user, password);
+            //JOptionPane.showMessageDialog(null, "Connected");
+        } catch (SQLException ex) {
+            //connection2 = DriverManager.getConnection(url2, user, password);
+            Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Failed To Connect to Main Database");
+            //return connection2;
+        }
+
+        return connection;
+    }
+   
+    public void setUrl(String url)
+    {
+        this.url1 = url;
+    }
+    
+    public ObservableList<ObservableList> mostrarDatos1(TableView tablaEst1, int id) {
         try {
             Connection c = dbConnectionDB1();
             String sql = "SELECT venta.idventa, venta.idsurtidor,surtidor.tipocombustible ,venta.cantidadlitros, venta.precioactual, venta.valorventa, venta.fecha\n"
                     + "FROM venta \n"
-                    + "INNER JOIN surtidor ON venta.idsurtidor = "+id+"\n"
+                    + "INNER JOIN surtidor ON venta.idsurtidor = surtidor.idsurtidor \n"
                     + "WHERE surtidor.idsurtidor="+id+"\n"
                     + "order by fecha desc;";
 
@@ -180,27 +225,29 @@ public class Proyecto2DistribuidosReloaded extends Application {
         return data1;
     }
     
-    public Connection dbConnectionDB2() throws SQLException {
-
-        try {
-
-            Class.forName("org.postgresql.Driver");
-
-        } catch (ClassNotFoundException e) {
-            e.getMessage();
+    public void setTimestamp()
+    {
+        if(this.ts == null)
+        {
+            Date d = new Date();
+            long time = d.getTime();
+            this.ts = new Timestamp(time); 
         }
 
-        try {
-            connection = DriverManager.getConnection(url2, user, password);
-            //JOptionPane.showMessageDialog(null, "Connected");
-        } catch (SQLException ex) {
-            //connection2 = DriverManager.getConnection(url2, user, password);
-            Logger.getLogger(Proyecto2DistribuidosReloaded.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Failed To Connect to Main Database");
-            //return connection2;
-        }
-
-        return connection;
     }
-   
+    
+    public void resetTimestamp()
+    {
+        this.ts = null;
+    }
+    
+    public String getUrl1()
+    {
+        return this.url1;
+    }
+    
+    public void setUrlDistribuidor(){
+        this.distribuidor1.setUrl1(this.url1);
+    }
+
 }

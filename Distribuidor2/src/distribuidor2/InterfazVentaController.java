@@ -16,7 +16,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -27,7 +26,9 @@ import javafx.stage.Stage;
  */
 public class InterfazVentaController implements Initializable {
 
-    Proyecto2DistribuidosReloaded p2 = new Proyecto2DistribuidosReloaded();
+    private Connection c;
+    private Connection c2;
+    private String url1;
     
     @FXML
     private Button aceptar;
@@ -66,17 +67,26 @@ public class InterfazVentaController implements Initializable {
         v.setValorVenta(v.getPrecioActual() * v.getCantidadLitros());
         
         //Aca poner el codigo para llamar a la venta!!!
-        ingresarVenta1(v);
-        ingresarVentaBackup(v);
+        System.out.println("url: " + getUrl1());
+        if(getUrl1().equals(""))
+        {
+            ingresarVentaBackup(v);
+        }
+        else
+        {
+           ingresarVenta1(v);
+           ingresarVentaBackup(v);
+        }
+        
+        
         
         
         //Cerrar ventana
         Stage stage = (Stage) aceptar.getScene().getWindow();
         // do what you have to do
         stage.close();
-        
-        
     }
+       
 
     @FXML
     private void handleButtonCancelar(ActionEvent event) {
@@ -96,7 +106,7 @@ public class InterfazVentaController implements Initializable {
         this.idSurtidor = idSurtidor;
         litrosField.setText(String.valueOf(this.idSurtidor));
     }
-
+    
     
     public long ingresarVenta1(Venta venta) {
         String sql = "INSERT INTO venta (idsurtidor, cantidadlitros, valorventa, precioactual, fecha) "
@@ -105,7 +115,7 @@ public class InterfazVentaController implements Initializable {
         long id = 0;
         
 
-        try ( Connection c = p2.dbConnectionDB1();  PreparedStatement pstmt = c.prepareStatement(sql,
+        try ( PreparedStatement pstmt = this.c.prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, venta.getIdSurtidor());
             pstmt.setFloat(2, venta.getCantidadLitros());
@@ -138,7 +148,7 @@ public class InterfazVentaController implements Initializable {
         long id = 0;
         
 
-        try ( Connection c = p2.dbConnectionDB2();  PreparedStatement pstmt = c.prepareStatement(sql,
+        try ( PreparedStatement pstmt = this.getC2().prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, venta.getIdSurtidor());
             pstmt.setFloat(2, venta.getCantidadLitros());
@@ -163,5 +173,49 @@ public class InterfazVentaController implements Initializable {
 
         return id;
     }
+
     
+    public Connection getConnection()
+    {
+        return c;
+    }
+
+    
+    public void setConnection(Connection c)
+    {
+        this.c = c;
+    }
+
+    /**
+     * @return the url1
+     */
+    public String getUrl1()
+    {
+        return url1;
+    }
+
+    /**
+     * @param url1 the url1 to set
+     */
+    public void setUrl1(String url1)
+    {
+        this.url1 = url1;
+    }
+
+    /**
+     * @return the c2
+     */
+    public Connection getC2()
+    {
+        return c2;
+    }
+
+    /**
+     * @param c2 the c2 to set
+     */
+    public void setC2(Connection c2)
+    {
+        this.c2 = c2;
+    }
+
 }

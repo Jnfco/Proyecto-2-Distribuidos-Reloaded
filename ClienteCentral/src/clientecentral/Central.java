@@ -35,11 +35,7 @@ public class Central extends Application implements Runnable
     private String sql=" ";
     private String mensaje="";
     
-    public static void main(String[] args)
-    {
-        launch(args);
-    }
-    
+  
     
     @Override
     public void run()

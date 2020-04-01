@@ -9,10 +9,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import distribuidor2.Proyecto2DistribuidosReloaded;
 
 /**
  *
@@ -29,9 +31,20 @@ public class Venta {
     private Connection c2;
     private float valorActual;
     private float factorutilidad;
+    private Timestamp fecha;
 
-    String urlDB1 = "jdbc:postgresql://localhost:5432/Distribuidor2";
-    //String urlDB2 = "jdbc:postgresql://localhost:5432/Distribuidor2";
+    public Timestamp getFecha()
+    {
+        return fecha;
+    }
+
+    public void setFecha(Timestamp fecha)
+    {
+        this.fecha = fecha;
+    }
+
+    String urlDB1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
+    //String urlDB2 = "jdbc:postgresql://localhost:5432/Distribuidor2Resp";
     String user = "postgres";
     String password = "Distribuidos1234";
     
@@ -78,10 +91,14 @@ public class Venta {
         ResultSet rs = c.createStatement().executeQuery(sql);
         while (rs.next())
         {
-            this.valorActual = (float) (Float.parseFloat(rs.getString(1)) /** (1 + (getFactorUtilidad() / 100.0))*/) ;
+            this.valorActual = (float) (Float.parseFloat(rs.getString(1))/* * (1 + (getFactorUtilidad() / 100.0))*/) ;
         }
 
         return this.valorActual;
+    }
+    public float getPrecioActualizado() throws SQLException
+    {
+        return this.precioActual;
     }
     
     public float getFactorUtilidad() throws SQLException
@@ -151,4 +168,8 @@ public class Venta {
         this.valorVenta = valorVenta;
     }
 
+    public void setIdVenta(int idVenta)
+    {
+        
+    }
 }

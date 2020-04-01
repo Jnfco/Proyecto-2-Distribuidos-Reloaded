@@ -148,7 +148,7 @@ public class FXMLDocumentController implements Initializable {
         Connection c2 = p2.dbConnectionDB2();
         Connection c1 = p2.dbConnectionDB1();
 
-        String sqlSelect = "SELECT * FROM venta WHERE fecha > '" + p2.ts + "';";
+        String sqlSelect = "SELECT * FROM venta WHERE fecha > '" + p2.ts+ "';";
         ResultSet rs = c2.createStatement().executeQuery(sqlSelect);
 
         //ArrayList<Venta> ventas = new ArrayList<>();
@@ -191,7 +191,7 @@ public class FXMLDocumentController implements Initializable {
                 pstmt.setInt(1, v.getIdSurtidor());
                 pstmt.setFloat(2, v.getCantidadLitros());
                 pstmt.setFloat(3, v.getValorVenta());
-                pstmt.setFloat(4, v.getPrecioActual());
+                pstmt.setFloat(4, v.getPrecioActualizado());
                 pstmt.setTimestamp(5, v.getFecha());
 
                 int affectedRows = pstmt.executeUpdate();

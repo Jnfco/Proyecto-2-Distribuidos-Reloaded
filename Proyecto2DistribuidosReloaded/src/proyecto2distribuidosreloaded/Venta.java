@@ -96,6 +96,10 @@ public class Venta {
 
         return this.valorActual;
     }
+    public float getPrecioActualizado() throws SQLException
+    {
+        return this.precioActual;
+    }
     
     public float getFactorUtilidad() throws SQLException
     {
