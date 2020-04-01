@@ -241,10 +241,18 @@ public class CentralController  implements Initializable  {
 
         try {
 
-            String sql = "Select surtidor.idsurtidor,distribuidor.iddistribuidor,surtidor.tipocombustible ,round(Avg(venta.cantidadlitros),2 )as promediolitros ,round(Avg(venta.valorventa),2) as promedioventa\n"
-                    + "  From  distribuidor, surtidor, venta\n"
-                    + "  where distribuidor.iddistribuidor = surtidor.iddistribuidor and surtidor.idsurtidor = venta.idsurtidor \n"
-                    + "  Group By surtidor.idsurtidor, distribuidor.iddistribuidor;";
+//            String sql = "Select surtidor.idsurtidor,distribuidor.iddistribuidor,surtidor.tipocombustible ,round(Avg(venta.cantidadlitros),2 )as promediolitros ,round(Avg(venta.valorventa),2) as promedioventa, "
+//                    + " sum(venta.cantidadlitros) as totallitrosvendidos\n"
+//                    + "  From  distribuidor, surtidor, venta\n"
+//                    + "  where distribuidor.iddistribuidor = surtidor.iddistribuidor and surtidor.idsurtidor = venta.idsurtidor \n"
+//                    + "  Group By surtidor.idsurtidor, distribuidor.iddistribuidor;";
+
+            String sql = "Select surtidorview.idsurtidor,distribuidorview.iddistribuidor2,surtidorview.tipocombustible , "
+                    + " round(Avg(venta.cantidadlitros),2 )as promediolitros ,round(Avg(venta.valorventa),2) as promedioventa, \n"
+                    + " sum(venta.cantidadlitros) as totallitrosvendidos\n"
+                    + "  From  distribuidorview, surtidorview, venta\n"
+                    + "  where distribuidorview.iddistribuidor2 = surtidorview.iddistribuidor2 and surtidorview.idsurtidor = venta.idsurtidor \n"
+                    + "  Group By surtidorview.idsurtidor, distribuidorview.iddistribuidor2, surtidorview.tipocombustible;";
 
             ResultSet rs = c1.createStatement().executeQuery(sql);
 
@@ -311,10 +319,12 @@ public class CentralController  implements Initializable  {
 
         try {
 
-            String sql = "Select surtidor.idsurtidor,distribuidor.iddistribuidor,surtidor.tipocombustible ,round(Avg(venta.cantidadlitros),2 )as promediolitros ,round(Avg(venta.valorventa),2) as promedioventa\n"
-                    + "  From  distribuidor, surtidor, venta\n"
-                    + "  where distribuidor.iddistribuidor = surtidor.iddistribuidor and surtidor.idsurtidor = venta.idsurtidor \n"
-                    + "  Group By surtidor.idsurtidor, distribuidor.iddistribuidor;";
+            String sql = "Select surtidorview.idsurtidor,distribuidorview.iddistribuidor2,surtidorview.tipocombustible , "
+                    + " round(Avg(venta.cantidadlitros),2 )as promediolitros ,round(Avg(venta.valorventa),2) as promedioventa, \n"
+                    + " sum(venta.cantidadlitros) as totallitrosvendidos\n"
+                    + "  From  distribuidorview, surtidorview, venta\n"
+                    + "  where distribuidorview.iddistribuidor2 = surtidorview.iddistribuidor2 and surtidorview.idsurtidor = venta.idsurtidor \n"
+                    + "  Group By surtidorview.idsurtidor, distribuidorview.iddistribuidor2;";
 
             ResultSet rs = c2.createStatement().executeQuery(sql);
 
