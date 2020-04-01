@@ -107,6 +107,7 @@ public class Distribuidor extends Application implements Runnable {
 
                     }
                     if(mensaje.equals("Reporte")){
+                        System.out.println("Reporte");
                         DataOutputStream urlActual = new DataOutputStream(sc.getOutputStream());
                         urlActual.writeUTF(this.url1);
                         

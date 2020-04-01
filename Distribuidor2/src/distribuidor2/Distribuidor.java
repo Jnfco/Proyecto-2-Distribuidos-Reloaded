@@ -61,6 +61,7 @@ public class Distribuidor extends Application implements Runnable {
     @Override
     public void run() {
 
+        
         try {
             // implementar Socket Server
             DriverManager.registerDriver(new org.postgresql.Driver());
@@ -105,6 +106,12 @@ public class Distribuidor extends Application implements Runnable {
                             actualizarPrecios2(getC2());
                         }
 
+                    }
+                    if(mensaje.equals("Reporte")){
+                        System.out.println("Reporte");
+                        DataOutputStream urlActual = new DataOutputStream(sc.getOutputStream());
+                        urlActual.writeUTF(this.url1);
+                        
                     }
                     System.out.println(mensaje);
                     //out.writeUTF(" SERVER !");
