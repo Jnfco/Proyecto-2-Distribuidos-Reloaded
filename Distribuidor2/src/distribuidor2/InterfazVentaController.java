@@ -104,7 +104,7 @@ public class InterfazVentaController implements Initializable {
     public void setIdSurtidor(int idSurtidor) {
 
         this.idSurtidor = idSurtidor;
-        litrosField.setText(String.valueOf(this.idSurtidor));
+        //litrosField.setText(String.valueOf(this.idSurtidor));
     }
     
     
