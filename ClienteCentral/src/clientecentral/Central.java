@@ -34,6 +34,8 @@ public class Central extends Application implements Runnable
     private int puerto;
     private String sql=" ";
     private String mensaje="";
+    private String url1 = "jdbc:postgresql://localhost:5432/Distribuidor1";
+    private String url2 ="jdbc:postgresql://localhost:5432/Distribuidor2";
     
   
     
@@ -54,7 +56,9 @@ public class Central extends Application implements Runnable
             
             out = new DataOutputStream(sc1.getOutputStream());
             out.writeUTF(mensaje);
-            DataOutputStream precioK = new DataOutputStream(sc1.getOutputStream());
+            if(mensaje.equals("Actualizar")){
+                
+                DataOutputStream precioK = new DataOutputStream(sc1.getOutputStream());
             DataOutputStream precioD = new DataOutputStream(sc1.getOutputStream());
             DataOutputStream precio93 = new DataOutputStream(sc1.getOutputStream());
             DataOutputStream precio95 = new DataOutputStream(sc1.getOutputStream());
@@ -87,6 +91,19 @@ public class Central extends Application implements Runnable
             //String mensaje = in.readUTF();
             System.out.println("Se recibio el mensaje: "+mensaje);
             sc2.close();
+                
+            }
+            if(mensaje.equals("Reporte")){
+                DataInputStream url1 = new DataInputStream(sc1.getInputStream());
+                setUrl1(url1.readUTF());
+                sc1.close();
+                
+                DataInputStream url2 = new DataInputStream(sc2.getInputStream());
+                setUrl2(url2.readUTF());
+                sc2.close();
+                
+            }
+            
             
         } catch (IOException ex)
         {
@@ -193,4 +210,20 @@ public class Central extends Application implements Runnable
         this.mensaje=mensaje;
     }
 
+    
+    public String getUrl1 (){
+        return this.url1;
+    }
+    
+    public String getUrl2(){
+        return this.url2;
+    }
+    
+    public void setUrl1(String url1){
+        this.url1=url1;
+    }
+    
+    public void setUrl2(String url2){
+        this.url2=url2;
+    }
 }

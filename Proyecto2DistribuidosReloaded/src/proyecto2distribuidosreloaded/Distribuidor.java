@@ -106,6 +106,11 @@ public class Distribuidor extends Application implements Runnable {
                         }
 
                     }
+                    if(mensaje.equals("Reporte")){
+                        DataOutputStream urlActual = new DataOutputStream(sc.getOutputStream());
+                        urlActual.writeUTF(this.url1);
+                        
+                    }
                     System.out.println(mensaje);
                     //out.writeUTF(" SERVER !");
                     sc.close();
